@@ -77,6 +77,11 @@
     <Reference Include="Sandbox.Graphics">
       <Private>False</Private>
     </Reference>
+    <Reference Include="SEPC">
+      <HintPath Condition="Exists('C:\Games\Steam\steamapps\common\SpaceEngineers')">C:\Games\Steam\steamapps\common\SpaceEngineers\SpaceEngineersPluginLoader\plugin\Rynchodon.SEPC\SEPC.dll</HintPath>
+      <HintPath Condition="Exists('C:\Program Files\Steam\steamapps\common\SpaceEngineers')">C:\Program Files\Steam\steamapps\common\SpaceEngineers\SpaceEngineersPluginLoader\plugin\Rynchodon.SEPC\SEPC.dll</HintPath>
+      <HintPath Condition="Exists('C:\Program Files (x86)\Steam\steamapps\common\SpaceEngineers')">C:\Program Files (x86)\Steam\steamapps\common\SpaceEngineers\SpaceEngineersPluginLoader\plugin\Rynchodon.SEPC\SEPC.dll</HintPath>
+    </Reference>
     <Reference Include="SpaceEngineers.Game">
       <Private>False</Private>
     </Reference>

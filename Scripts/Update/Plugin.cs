@@ -5,6 +5,7 @@ using Sandbox.Engine.Platform;
 using Sandbox.Game.World;
 using VRage.ObjectBuilders;
 using VRage.Plugins;
+using SEPC;
 
 namespace Rynchodon.Update
 {
@@ -34,6 +35,7 @@ namespace Rynchodon.Update
 				return;
 
 			Logger.DebugLog("Loading ARMS");
+			Logger.DebugLog("SEPC.Class1.Foo is " + SEPC.Class1.Foo);
 			MySession.Static.RegisterComponentsFromAssembly(Assembly.GetExecutingAssembly(), true);
 		}
 	}
