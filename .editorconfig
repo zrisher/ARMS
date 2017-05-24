@@ -1,6 +1,5 @@
 # Defaults
 [*]
-charset = utf-8
 end_of_line = crlf
 indent_style = tab
 insert_final_newline = true
