@@ -7,8 +7,7 @@ It also includes radar functionality for picking up non-broadcasting objects
 depending on their radar signature and distance. Radar information is
 distributed across antenna networks.
 
-Please see the [steam page]
-(http://steamcommunity.com/sharedfiles/filedetails/?id=363880940) for a full
+Please see the [steam page](http://steamcommunity.com/sharedfiles/filedetails/?id=363880940) for a full
 feature list.
 
 ## Getting started
@@ -20,14 +19,12 @@ listed [on the wiki](https://github.com/Rynchodon/Autopilot/wiki/Developing-Auto
 
 ## Roadmap
 
-Please see the [steam page]
-(http://steamcommunity.com/sharedfiles/filedetails/?id=363880940) for the
+Please see the [steam page](http://steamcommunity.com/sharedfiles/filedetails/?id=363880940) for the
 current Roadmap.
 
 ## Contributing
 
-Please submit bug reports and feature requests on the [steam page]
-(http://steamcommunity.com/sharedfiles/filedetails/?id=363880940) and its related
+Please submit bug reports and feature requests on the [steam page](http://steamcommunity.com/sharedfiles/filedetails/?id=363880940) and its related
 discussions.
 
 ## License
