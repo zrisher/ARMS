@@ -1,5 +1,7 @@
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities.Cube;
 using Sandbox.Game.Gui;
 using Sandbox.ModAPI;
@@ -12,10 +14,12 @@ namespace Rynchodon.Autopilot
 	/// <summary>
 	/// For any block that may be directed to point at the sun using motors.
 	/// </summary>
+	[IsSessionComponent(RunLocation.Server, true)]
+	[IsEntityComponent(typeof(IMyCubeBlock), new [] { typeof(MyObjectBuilder_OxygenFarm), typeof(MyObjectBuilder_SolarPanel) },  RunLocation.Server, groupId: 1)]
 	public class Solar
 	{
 
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void CreateTerminal()
 		{
 			Logger.DebugLog("entered", Logger.severity.TRACE);
@@ -58,6 +62,7 @@ namespace Rynchodon.Autopilot
 			myBlock.OnClose -= myBlock_OnClose;
 		}
 
+		[OnEntityUpdate(100)]
 		public void Update100()
 		{
 			if (m_termControl_faceSun)

@@ -1,4 +1,5 @@
-﻿using System;
+using Rynchodon.Update.Components.Attributes;
+using System;
 using System.Reflection;
 using Sandbox.Game.World;
 using Sandbox.ModAPI;
@@ -8,10 +9,11 @@ using VRage.Game.Components;
 
 namespace Rynchodon.Update
 {
+	[IsSessionComponent(RunLocation.Both, true)]
 	static class DisableNotifyDownload
 	{
 
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void Load()
 		{
 			foreach (MyObjectBuilder_Checkpoint.ModItem mod in MyAPIGateway.Session.Mods)

@@ -1,3 +1,4 @@
+using Rynchodon.Update.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using Sandbox.Game.Entities;
@@ -9,6 +10,7 @@ using VRageMath;
 
 namespace Rynchodon
 {
+	[IsSessionComponent(RunLocation.Both, true, order: int.MinValue)]
 	public static class Globals
 	{
 
@@ -141,9 +143,16 @@ namespace Rynchodon
 					yield return voxel;
 		}
 
-		[OnWorldClose]
+		[OnStaticSessionComponentInit]
+		private static void Init()
+		{
+			WorldClosed = false;
+		}
+
+		[OnSessionClose(order: int.MaxValue - 1)]
 		private static void Unload()
 		{
+			WorldClosed = true;
 			using (lock_voxels.AcquireExclusiveUsing())
 			{
 				m_voxelMaps.Clear();

@@ -10,6 +10,7 @@ using Rynchodon.Autopilot.Navigator;
 using Rynchodon.Autopilot.Pathfinding;
 using Rynchodon.Settings;
 using Rynchodon.Threading;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities;
@@ -56,6 +57,7 @@ namespace Rynchodon.Autopilot
 	/// <summary>
 	/// Core class for all Autopilot functionality.
 	/// </summary>
+	[IsEntityComponent(typeof(IMyCubeBlock), new[] { typeof(MyObjectBuilder_Cockpit), typeof(MyObjectBuilder_RemoteControl) }, RunLocation.Server, groupId: 1)]
 	public class ShipAutopilot
 	{
 
@@ -89,6 +91,16 @@ namespace Rynchodon.Autopilot
 				return block.BlockDefinition.SubtypeId.Contains(subtype_autopilotBlock);
 
 			return block is MyRemoteControl;
+		}
+
+		[EntityComponentIf]
+		public static bool IsAutopilotBlockGivenSettings(IMyCubeBlock block)
+		{
+			if (block is MyCockpit)
+				return block.BlockDefinition.SubtypeId.Contains(subtype_autopilotBlock);
+			if (block is MyRemoteControl)
+				return ServerSettings.GetSetting<bool>(ServerSettings.SettingName.bUseRemoteControl);
+			return false;
 		}
 
 		/// <summary>
@@ -213,9 +225,16 @@ namespace Rynchodon.Autopilot
 			m_state = State.Closed;
 		}
 
+		[OnEntityUpdate(UpdateFrequency)]
 		public void Update()
 		{
 			AutopilotThread.EnqueueAction(UpdateThread);
+		}
+
+		[OnEntityUpdate(100)]
+		public void UpdateNetworkNode()
+		{
+			m_block.NetworkNode.Update100();
 		}
 
 		/// <summary>

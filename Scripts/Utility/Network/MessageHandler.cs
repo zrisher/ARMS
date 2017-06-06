@@ -1,10 +1,11 @@
+using Rynchodon.Update.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using Sandbox.ModAPI;
 
 namespace Rynchodon.Utility.Network
 {
-
+	[IsSessionComponent(RunLocation.Both, true)]
 	public static class MessageHandler
 	{
 
@@ -15,13 +16,13 @@ namespace Rynchodon.Utility.Network
 
 		private static Dictionary<SubMod, Handler> Handlers = new Dictionary<SubMod, Handler>();
 
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void Init()
 		{
 			MyAPIGateway.Multiplayer.RegisterMessageHandler(ModId, HandleMessage);
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			MyAPIGateway.Multiplayer.UnregisterMessageHandler(ModId, HandleMessage);

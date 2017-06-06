@@ -8,6 +8,7 @@ using System.Text;
 using System.Xml.Serialization;
 using Rynchodon.AntennaRelay;
 using Rynchodon.Threading;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Collections;
 using Rynchodon.Utility.Network;
@@ -33,6 +34,7 @@ namespace Rynchodon.Weapons
 	/// <summary>
 	/// Contains functions that are common to turrets and fixed weapons
 	/// </summary>
+	[IsSessionComponent(RunLocation.Both, true)]
 	public abstract class WeaponTargeting : TargetingBase
 	{
 
@@ -366,13 +368,13 @@ namespace Rynchodon.Weapons
 
 		private static StaticVariables Static;
 
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void Init()
 		{
 			Static = new StaticVariables();
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			Static = null;

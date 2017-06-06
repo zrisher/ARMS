@@ -1,4 +1,4 @@
-﻿#if DEBUG
+#if DEBUG
 #define TRACE
 #endif
 
@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Xml.Serialization;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Rynchodon.Weapons.Guided;
@@ -44,6 +45,7 @@ namespace Rynchodon.AntennaRelay
 	/// when finished, replace assert is empty with clear
 	public sealed class RadarEquipment : IComparable<RadarEquipment>
 	{
+		[IsSessionComponent(RunLocation.Both, true)]
 		public sealed class Definition
 		{
 			/// <summary>Definition for a decoy block.</summary>
@@ -60,7 +62,7 @@ namespace Rynchodon.AntennaRelay
 				Decoy.Init();
 			}
 
-			[OnWorldClose]
+			[OnSessionClose]
 			private static void OnUnload()
 			{
 				_knownDefinitions.Clear();

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Rynchodon.AntennaRelay;
 using Rynchodon.Threading;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.Definitions;
 using Sandbox.Game.Entities;
 using Sandbox.ModAPI;
@@ -14,9 +16,11 @@ using VRageMath;
 
 namespace Rynchodon.Autopilot.Harvest
 {
+	[IsSessionComponent(RunLocation.Both, true)]
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_OreDetector), RunLocation.Server, groupId: 1)]
 	public class OreDetector
 	{
-
+		[IsSessionComponent(RunLocation.Both, true)]
 		private class VoxelData
 		{
 
@@ -52,7 +56,7 @@ namespace Rynchodon.Autopilot.Harvest
 				set { value_static = value; }
 			}
 
-			[OnWorldClose]
+			[OnSessionClose]
 			private static void Unload()
 			{
 				Static = null;
@@ -334,7 +338,7 @@ namespace Rynchodon.Autopilot.Harvest
 			set { value_static = value; }
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			Static = null;
@@ -446,6 +450,7 @@ namespace Rynchodon.Autopilot.Harvest
 		/// <summary>
 		/// Removes old voxel data.
 		/// </summary>
+		[OnEntityUpdate(1000)]
 		public void Update()
 		{
 			using (l_voxelData.AcquireExclusiveUsing())

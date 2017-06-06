@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Rynchodon.Settings;
+using Rynchodon.Update.Components.Attributes;
 using Sandbox.Game.Entities;
 using Sandbox.Game.Gui;
 using Sandbox.ModAPI;
@@ -12,6 +13,7 @@ using VRageMath;
 
 namespace Rynchodon.Autopilot.Aerodynamics
 {
+	[IsSessionComponent(RunLocation.Both, true)]
 	class CockpitTerminal
 	{
 
@@ -64,14 +66,14 @@ namespace Rynchodon.Autopilot.Aerodynamics
 			set { value_instance = value; }
 		}
 
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void Load()
 		{
 			if (ServerSettings.GetSetting<bool>(ServerSettings.SettingName.bAirResistanceBeta))
 				MyTerminalControls.Static.CustomControlGetter += CustomControlGetter;
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			MyTerminalControls.Static.CustomControlGetter -= CustomControlGetter;

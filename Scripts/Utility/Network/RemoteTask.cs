@@ -1,4 +1,4 @@
-﻿#if DEBUG
+#if DEBUG
 #define TRACE
 #endif
 
@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Rynchodon.Update;
+using Rynchodon.Update.Components.Attributes;
 using Sandbox.Game.World;
 using Sandbox.ModAPI;
 
@@ -16,6 +17,7 @@ namespace Rynchodon.Utility.Network
 	/// Allows the server to request that a client executes some task.
 	/// </summary>
 	/// TODO: sim speed check?
+	[IsSessionComponent(RunLocation.Both, true)]
 	abstract class RemoteTask
 	{
 
@@ -60,7 +62,7 @@ namespace Rynchodon.Utility.Network
 
 		#region Load
 
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void Load()
 		{
 			if (!MyAPIGateway.Multiplayer.IsServer)
@@ -75,7 +77,7 @@ namespace Rynchodon.Utility.Network
 			m_outstandingTask = new Dictionary<int, RemoteTask>();
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			if (!MyAPIGateway.Multiplayer.IsServer)

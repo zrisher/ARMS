@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Xml.Serialization;
 using Rynchodon.Instructions;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility.Network;
 using Rynchodon.Utility;
 using Sandbox.Game.Entities.Blocks;
@@ -16,7 +17,7 @@ using Ingame = Sandbox.ModAPI.Ingame;
 
 namespace Rynchodon.AntennaRelay
 {
-
+	[IsSessionComponent(RunLocation.Both, true)]
 	public class ProgrammableBlock : BlockInstructions
 	{
 
@@ -70,13 +71,13 @@ namespace Rynchodon.AntennaRelay
 
 		private static StaticVariables Static;
 
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void Load()
 		{
 			Static = new StaticVariables();
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			Static = null;

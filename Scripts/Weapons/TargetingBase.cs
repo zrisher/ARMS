@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Rynchodon.AntennaRelay;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities;
@@ -23,6 +24,7 @@ using System.Diagnostics;
 
 namespace Rynchodon.Weapons
 {
+	[IsSessionComponent(RunLocation.Both, true)]
 	public abstract class TargetingBase
 	{
 
@@ -42,7 +44,7 @@ namespace Rynchodon.Weapons
 		private static Dictionary<long, WeaponCounts> WeaponsTargeting = new Dictionary<long, WeaponCounts>();
 		private static FastResourceLock lock_WeaponsTargeting = new FastResourceLock();
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			WeaponsTargeting.Clear();

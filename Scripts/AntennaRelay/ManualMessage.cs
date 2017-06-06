@@ -1,4 +1,5 @@
-﻿using System;
+using Rynchodon.Update.Components.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Sandbox.Game.Entities.Cube;
@@ -13,6 +14,7 @@ namespace Rynchodon.AntennaRelay
 	/// <summary>
 	/// For players sending a message through the terminal.
 	/// </summary>
+	[IsSessionComponent(RunLocation.Both, true)]
 	class ManualMessage
 	{
 
@@ -38,14 +40,14 @@ namespace Rynchodon.AntennaRelay
 
 		private static StaticVariables Static;
 
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void Initialize()
 		{
 			MyTerminalControls.Static.CustomControlGetter += CustomHandler;
 			Static = new StaticVariables();
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			MyTerminalControls.Static.CustomControlGetter -= CustomHandler;

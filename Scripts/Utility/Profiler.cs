@@ -1,3 +1,4 @@
+using Rynchodon.Update.Components.Attributes;
 using System; // partial
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +13,7 @@ namespace Rynchodon.Utility
 	/// Keep in mind that this will include time spent waiting on a lock.
 	/// Sum counts the time spent in the outermost blocks.
 	/// </summary>
+	[IsSessionComponent(RunLocation.Both, true)]
 	public class Profiler
 	{
 
@@ -62,9 +64,12 @@ namespace Rynchodon.Utility
 		/// <summary>
 		/// Write all the profile data to a .csv file.
 		/// </summary>
-		[System.Diagnostics.Conditional("PROFILE")]
+		[OnSessionClose(order: int.MaxValue - 2)]
 		public static void Write()
 		{
+			if (ProfileValues.m_profile.Count == 0)
+				return;
+
 			FileMaster master = new FileMaster("Profiler master.txt", "Profiler - ", 10);
 			System.IO.TextWriter writer = master.GetTextWriter(DateTime.UtcNow.Ticks + ".csv");
 			writer.WriteLine("Class Name, Method Name, Seconds, Invokes, Seconds per Invoke, Worst Time, Ratio of Sum, Ratio of Game Time");

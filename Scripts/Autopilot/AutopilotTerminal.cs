@@ -8,6 +8,7 @@ using Rynchodon.Autopilot.Instruction;
 using Rynchodon.Autopilot.Pathfinding;
 using Rynchodon.Settings;
 using Rynchodon.Update;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Sandbox.Game.Entities;
@@ -23,6 +24,7 @@ namespace Rynchodon.Autopilot
 	/// <summary>
 	/// Autopilot terminal controls when not using GUI programming.
 	/// </summary>
+	[IsSessionComponent(RunLocation.Both, true)]
 	public class AutopilotTerminal
 	{
 
@@ -113,13 +115,13 @@ namespace Rynchodon.Autopilot
 
 		public static StaticVariables Static { get; private set; }
 
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void Load()
 		{
 			Static = new StaticVariables();
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			Static = null;

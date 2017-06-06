@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Rynchodon.AntennaRelay;
 using Rynchodon.Autopilot;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Rynchodon.Weapons;
@@ -17,6 +18,7 @@ namespace Rynchodon.Update
 	/// Saves/loads persistent data to/from a save file.
 	/// </summary>
 	/// TODO: client saving
+	[IsSessionComponent(RunLocation.Both, true, groupId: 4)]
 	public class Saver
 	{
 
@@ -45,15 +47,17 @@ namespace Rynchodon.Update
 
 		private static Saver Instance { get; set; }
 
-		[AfterArmsInit]
+		[OnStaticSessionComponentInit]
 		private static void OnLoad()
 		{
+			Logger.DebugLog("entered");
 			Instance = new Saver();
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
+			Logger.DebugLog("entered");
 			Instance = null;
 		}
 
@@ -439,9 +443,10 @@ namespace Rynchodon.Update
 		/// <summary>
 		/// Saves data to a variable.
 		/// </summary>
-		[OnWorldSave(Order = int.MaxValue)] // has to be last, obviously
+		[OnSessionSave(order: int.MaxValue)] // has to be last, obviously
 		private static void SaveData()
 		{
+			Logger.DebugLog("entered");
 			if (!MyAPIGateway.Multiplayer.IsServer)
 				return;
 

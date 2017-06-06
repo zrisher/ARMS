@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using Rynchodon.Autopilot;
 using Rynchodon.Update;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility.Network;
 using Sandbox.ModAPI;
 using VRage.Game.ModAPI;
@@ -10,6 +11,7 @@ using VRage.ModAPI;
 
 namespace Rynchodon.AntennaRelay
 {
+	[IsSessionComponent(RunLocation.Both, true)]
 	public class Message
 	{
 
@@ -50,7 +52,7 @@ namespace Rynchodon.AntennaRelay
 		/// <summary>
 		/// Message needs to be explicitly initialized because there may be none in the world.
 		/// </summary>
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void Init() { }
 
 		#region Create & Send

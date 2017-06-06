@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Entities.Blocks;
 using Rynchodon.Settings;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Rynchodon.Utility.Vectors;
@@ -25,6 +26,7 @@ namespace Rynchodon.AntennaRelay
 	/// <summary>
 	/// Projects miniature ships. Could do asteroids / planets in the future or other entities.
 	/// </summary>
+	[IsSessionComponent(RunLocation.Both, true)]
 	public class Projector
 	{
 
@@ -333,14 +335,14 @@ namespace Rynchodon.AntennaRelay
 
 		private static StaticVariables Static;
 
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void Init()
 		{
 			Static = new StaticVariables();
 			MyTerminalControls.Static.CustomControlGetter += Static.CustomControlGetter;
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			MyTerminalControls.Static.CustomControlGetter -= Static.CustomControlGetter;

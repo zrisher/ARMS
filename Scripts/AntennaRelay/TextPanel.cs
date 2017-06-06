@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using Rynchodon.Attached;
 using Rynchodon.Autopilot;
 using Rynchodon.Instructions;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Sandbox.Game.Entities.Blocks;
@@ -19,6 +20,7 @@ using Ingame = Sandbox.ModAPI.Ingame;
 
 namespace Rynchodon.AntennaRelay
 {
+	[IsSessionComponent(RunLocation.Both, true)]
 	public class TextPanel : BlockInstructions
 	{
 
@@ -49,7 +51,7 @@ namespace Rynchodon.AntennaRelay
 		private static readonly char[] OptionsSeparators = { ',', ';', ':' };
 		private static readonly List<long> s_detectedIds = new List<long>();
 
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void CreateTerminal()
 		{
 			Logger.DebugLog("entered", Logger.severity.TRACE);

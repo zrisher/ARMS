@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using Rynchodon.Update;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Sandbox.Game.Entities;
 using Sandbox.ModAPI;
@@ -13,6 +14,7 @@ using VRage.ObjectBuilders;
 
 namespace Rynchodon.Weapons.SystemDisruption
 {
+	[IsSessionComponent(RunLocation.Both, true)]
 	public abstract class Disruption
 	{
 
@@ -33,7 +35,7 @@ namespace Rynchodon.Weapons.SystemDisruption
 		public static HashSet<Disruption> AllDisruptions = new HashSet<Disruption>();
 		private static HashSet<IMyCubeBlock> m_allAffected = new HashSet<IMyCubeBlock>();
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			AllDisruptions.Clear();

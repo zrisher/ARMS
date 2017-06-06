@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Rynchodon.AntennaRelay;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Sandbox.Definitions;
@@ -21,6 +22,7 @@ using VRageMath;
 
 namespace Rynchodon.Weapons.Guided
 {
+	[IsSessionComponent(RunLocation.Both, true)]
 	public class GuidedMissileLauncher
 	{
 		private const ulong checkInventoryInterval = Globals.UpdatesPerSecond;
@@ -41,14 +43,14 @@ namespace Rynchodon.Weapons.Guided
 				throw new NullReferenceException("MyMissile__m_missileAmmoDefinition");
 		}
 
-		[OnWorldLoad]
+		[OnStaticSessionComponentInit]
 		private static void Init()
 		{
 			MyAPIGateway.Entities.OnEntityAdd += Entities_OnEntityAdd;
 			HijackShoot();
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			MyAPIGateway.Entities.OnEntityAdd -= Entities_OnEntityAdd;

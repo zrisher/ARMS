@@ -1,9 +1,11 @@
-﻿using Sandbox.Game.World;
+using Rynchodon.Update.Components.Attributes;
+using Sandbox.Game.World;
 using VRage;
 using VRageMath;
 
 namespace Rynchodon
 {
+	[IsSessionComponent(RunLocation.Server)]
 	public class SunProperties
 	{
 
@@ -17,6 +19,7 @@ namespace Rynchodon
 			Instance = this;
 		}
 
+		[OnSessionUpdate(10)]
 		public void Update10()
 		{
 			using (Instance.lock_mySunDirection.AcquireExclusiveUsing())

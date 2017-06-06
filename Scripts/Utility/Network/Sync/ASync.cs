@@ -1,4 +1,4 @@
-﻿#if DEBUG
+#if DEBUG
 #define TRACE
 #endif
 
@@ -8,12 +8,14 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Sandbox.ModAPI;
 using VRage.Collections;
+using Rynchodon.Update.Components.Attributes;
 
 namespace Rynchodon.Utility.Network
 {
 	/// <summary>
 	/// Objects of this type synchronize and save events or values.
 	/// </summary>
+	[IsSessionComponent(RunLocation.Both, true, order: int.MinValue + 1)]
 	public abstract class ASync : LogWise
 	{
 		/// <summary>
@@ -105,14 +107,14 @@ namespace Rynchodon.Utility.Network
 			MessageHandler.AddHandler(MessageHandler.SubMod.SyncRequest, HandleRequest);
 		}
 
-		[OnWorldLoad(Order = -100)]
+		[OnStaticSessionComponentInit()]
 		private static void OnLoad()
 		{
 			_syncs = new Dictionary<Id, ASync>();
 			_hasValues = MyAPIGateway.Multiplayer.IsServer;
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void OnClose()
 		{
 			_syncs = null;

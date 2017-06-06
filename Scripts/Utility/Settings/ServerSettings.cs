@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Rynchodon.Update;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Sandbox.ModAPI;
@@ -13,6 +15,7 @@ namespace Rynchodon.Settings
 	/// <summary>
 	/// Some of the settings will be made available to clients.
 	/// </summary>
+	[IsSessionComponent(RunLocation.Both, true)]
 	public class ServerSettings
 	{
 		public enum SettingName : byte
@@ -74,7 +77,7 @@ namespace Rynchodon.Settings
 		private Version m_currentVersion, m_serverVersion;
 		private bool m_settingsLoaded;
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			Instance = null;
@@ -89,7 +92,7 @@ namespace Rynchodon.Settings
 			if (MyAPIGateway.Multiplayer.IsServer)
 			{
 				m_serverVersion = m_currentVersion;
-				m_settingsLoaded = true;
+				SettingsLoaded();
 				MessageHandler.SetHandler(MessageHandler.SubMod.ServerSettings, Server_ReceiveMessage);
 
 				fileVersion = readAll();
@@ -188,7 +191,7 @@ namespace Rynchodon.Settings
 				SetSetting<float>(SettingName.fMaxSpeed, ByteConverter.GetFloat(message, ref pos));
 				SetSetting<float>(SettingName.fMaxWeaponRange, ByteConverter.GetFloat(message, ref pos));
 
-				m_settingsLoaded = true;
+				SettingsLoaded();
 			}
 			catch (Exception ex)
 			{ Logger.AlwaysLog("Exception: " + ex, Rynchodon.Logger.severity.ERROR); }
@@ -199,7 +202,7 @@ namespace Rynchodon.Settings
 			if (MyAPIGateway.Session.Player == null)
 			{
 				Logger.AlwaysLog("Could not get player, not requesting server settings.", Rynchodon.Logger.severity.WARNING);
-				m_settingsLoaded = true;
+				SettingsLoaded();
 				return;
 			}
 
@@ -211,6 +214,12 @@ namespace Rynchodon.Settings
 				Logger.DebugLog("Sent request to server", Rynchodon.Logger.severity.INFO);
 			else
 				Logger.AlwaysLog("Failed to send request to server", Rynchodon.Logger.severity.ERROR);
+		}
+
+		private void SettingsLoaded()
+		{
+			m_settingsLoaded = true;
+			UpdateManager.RaiseSessionEvent("ARMS.ServerSettingsLoaded");
 		}
 
 		/// <summary>

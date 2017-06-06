@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Rynchodon.AntennaRelay;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Rynchodon.Weapons.SystemDisruption;
@@ -14,6 +15,7 @@ using VRageMath;
 
 namespace Rynchodon.Weapons.Guided
 {
+	[IsSessionComponent(RunLocation.Both, true)]
 	public sealed class GuidedMissile : TargetingBase
 	{
 
@@ -70,7 +72,7 @@ namespace Rynchodon.Weapons.Guided
 			set { value_static = value; }
 		}
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			Static = null;

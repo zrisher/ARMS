@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Rynchodon.Threading;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Collections;
 using Sandbox.ModAPI;
@@ -26,6 +27,7 @@ namespace Rynchodon
 	/// <para>#endif</para>
 	/// <para>Otherwise, an exception will be thrown by traceLog and TraceLog</para>
 	/// </remarks>
+	[IsSessionComponent(RunLocation.Both, true)]
 	public static class Logger
 	{
 
@@ -66,7 +68,7 @@ namespace Rynchodon
 			}
 		}
 
-		[OnWorldClose]
+		[OnSessionClose(order: int.MaxValue)]
 		private static void Unload()
 		{
 			if (value_static == null)

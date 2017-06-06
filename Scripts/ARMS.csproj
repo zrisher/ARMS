@@ -220,7 +220,11 @@
     <Compile Include="Autopilot\Navigator\UnLander.cs" />
     <Compile Include="Properties\VersionInfo - User.cs" />
     <None Include="Properties\VersionInfo.cs" />
+    <Compile Include="Update\Components\Descriptions.cs" />
+    <Compile Include="Update\Components\Registration.cs" />
+    <Compile Include="Update\Components\Stores.cs" />
     <Compile Include="Update\DisableNotifyDownload.cs" />
+    <Compile Include="Update\Loader.cs" />
     <Compile Include="Update\Plugin.cs" />
     <Compile Include="Utility\Collections\ExpandingRings.cs" />
     <Compile Include="Autopilot\Pathfinding\Pathfinder.cs" />
@@ -238,7 +242,7 @@
     <None Include="Programmable\ProgrammableBlockCommunication.cs" />
     <Compile Include="AntennaRelay\ManualMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Update\Attributes.cs" />
+    <Compile Include="Update\Components\Attributes.cs" />
     <Compile Include="Update\Saver.cs" />
     <Compile Include="Update\SerializableGameTime.cs" />
     <Compile Include="Update\UpdateManager.cs" />
@@ -360,6 +364,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmable\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utility\Components\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

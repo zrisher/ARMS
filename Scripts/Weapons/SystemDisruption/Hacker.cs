@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Rynchodon.Attached;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
+using Rynchodon.Settings;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.ModAPI;
 using Sandbox.ModAPI.Interfaces;
 using SpaceEngineers.Game.ModAPI;
@@ -13,6 +16,7 @@ namespace Rynchodon.Weapons.SystemDisruption
 	/// <summary>
 	/// Hacks a ship, corrupting systems.
 	/// </summary>
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_LandingGear), RunLocation.Server, groupId: 1)]
 	public class Hacker
 	{
 
@@ -21,9 +25,10 @@ namespace Rynchodon.Weapons.SystemDisruption
 		public static readonly TimeSpan s_hackLength = new TimeSpan(0, 0, 17);
 		//private static float allowedBreakForce = 1f;
 
+		[EntityComponentIf]
 		public static bool IsHacker(IMyCubeBlock block)
 		{
-			if (!(block is IMyLandingGear))
+			if (!(block is IMyLandingGear && ServerSettings.GetSetting<bool>(ServerSettings.SettingName.bAllowHacker)))
 				return false;
 			string descr = block.GetCubeBlockDefinition().DescriptionString;
 			return descr != null && descr.ToLower().Contains("hacker");
@@ -44,6 +49,7 @@ namespace Rynchodon.Weapons.SystemDisruption
 			Log.DebugLog("Not a hacker", Logger.severity.FATAL, condition: !IsHacker(block));
 		}
 
+		[OnEntityUpdate(10)]
 		public void Update10()
 		{
 			if (Globals.ElapsedTime < m_nextHack)

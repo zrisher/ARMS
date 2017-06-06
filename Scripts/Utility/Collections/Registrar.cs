@@ -1,9 +1,11 @@
+using Rynchodon.Update.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using VRage.ModAPI;
 
 namespace Rynchodon
 {
+	[IsSessionComponent(RunLocation.Both, true)]
 	public static class Registrar
 	{
 
@@ -124,7 +126,7 @@ namespace Rynchodon
 
 		private static List<Action> UnloadAction = new List<Action>();
 
-		[OnWorldClose]
+		[OnSessionClose]
 		private static void Unload()
 		{
 			foreach (Action act in UnloadAction)
