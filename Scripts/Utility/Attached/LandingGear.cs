@@ -1,10 +1,14 @@
-﻿using System;
+using Rynchodon.Update.Components.Attributes;
+using Rynchodon.Weapons.SystemDisruption;
+using Sandbox.Common.ObjectBuilders;
 using SpaceEngineers.Game.Entities.Blocks;
+using System;
 using VRage.Game.ModAPI;
 using VRage.ModAPI;
 
 namespace Rynchodon.Attached
 {
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_LandingGear), RunLocation.Both, groupId: 1, order: int.MinValue)]
 	public class LandingGear : AttachableBlockBase
 	{
 		private MyLandingGear myGear { get { return (MyLandingGear)myBlock; } }
@@ -19,6 +23,12 @@ namespace Rynchodon.Attached
 				Attach(attached);
 
 			myGear.OnClosing += myGear_OnClosing;
+		}
+
+		[EntityComponentIf]
+		public static bool NotHacker(IMyCubeBlock block)
+		{
+			return !Hacker.IsHacker(block);
 		}
 
 		private void myGear_OnClosing(IMyEntity obj)

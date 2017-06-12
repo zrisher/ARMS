@@ -1,8 +1,11 @@
-﻿using Sandbox.ModAPI;
+using Rynchodon.Update.Components.Attributes;
+using Sandbox.Common.ObjectBuilders;
+using Sandbox.ModAPI;
 using VRage.Game.ModAPI;
 
 namespace Rynchodon.Attached
 {
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_ShipConnector), RunLocation.Both, groupId: 1, order: int.MinValue)]
 	public class Connector : AttachableBlockUpdate
 	{
 		public Connector(IMyCubeBlock block)
@@ -16,6 +19,12 @@ namespace Rynchodon.Attached
 				return null;
 
 			return myConn.OtherConnector;
+		}
+
+		[OnEntityUpdate(10)]
+		public override void Update()
+		{
+			base.Update();
 		}
 	}
 }

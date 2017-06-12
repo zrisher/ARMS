@@ -1,4 +1,4 @@
-﻿using VRage.Game.ModAPI;
+using VRage.Game.ModAPI;
 
 namespace Rynchodon.Attached
 {
@@ -9,7 +9,7 @@ namespace Rynchodon.Attached
 			: base(block, kind)
 		{ }
 
-		public void Update()
+		public virtual void Update()
 		{
 			IMyCubeBlock partner = GetPartner();
 			if (partner == null)
