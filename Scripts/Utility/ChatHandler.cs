@@ -1,11 +1,13 @@
 using System; // (partial) from mscorlib.dll
 using System.Text; // from mscorlib.dll
 using Rynchodon.Autopilot;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Settings;
 using Sandbox.ModAPI; // from Sandbox.Common.dll
 
 namespace Rynchodon.Utility
 {
+	[IsSessionComponent(RunLocation.Both, groupId: 1, order: 12)]
 	public class ChatHandler
 	{
 

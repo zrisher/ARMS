@@ -15,7 +15,7 @@ using VRageMath;
 
 namespace Rynchodon.Weapons.Guided
 {
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(RunLocation.Both, true, groupId: 1, order: 10)]
 	public sealed class GuidedMissile : TargetingBase
 	{
 
@@ -83,6 +83,7 @@ namespace Rynchodon.Weapons.Guided
 			MessageHandler.AddHandler(MessageHandler.SubMod.GuidedMissile, ReceiveMissilePositions);
 		}
 
+		[OnEntityUpdate(1)]
 		public static void Update1()
 		{
 #if PROFILE
@@ -129,6 +130,7 @@ namespace Rynchodon.Weapons.Guided
 #endif
 		}
 
+		[OnEntityUpdate(10)]
 		public static void Update10()
 		{
 #if PROFILE
@@ -173,6 +175,7 @@ namespace Rynchodon.Weapons.Guided
 #endif
 		}
 
+		[OnEntityUpdate(100)]
 		public static void Update100()
 		{
 #if PROFILE

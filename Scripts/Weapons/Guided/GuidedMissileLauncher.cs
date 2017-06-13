@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Rynchodon.AntennaRelay;
+using Rynchodon.Settings;
 using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
@@ -22,7 +23,7 @@ using VRageMath;
 
 namespace Rynchodon.Weapons.Guided
 {
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(RunLocation.Both, true, groupId: 1, order: 10)]
 	public class GuidedMissileLauncher
 	{
 		private const ulong checkInventoryInterval = Globals.UpdatesPerSecond;
@@ -41,6 +42,12 @@ namespace Rynchodon.Weapons.Guided
 			MyMissile__m_missileAmmoDefinition = MyMissileType.GetField("m_missileAmmoDefinition", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 			if (MyMissile__m_missileAmmoDefinition == null)
 				throw new NullReferenceException("MyMissile__m_missileAmmoDefinition");
+		}
+
+		[SessionComponentIf]
+		private static bool ShouldRun()
+		{
+			return ServerSettings.GetSetting<bool>(ServerSettings.SettingName.bAllowWeaponControl);
 		}
 
 		[OnStaticSessionComponentInit]

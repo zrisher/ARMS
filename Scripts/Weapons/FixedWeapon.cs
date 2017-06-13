@@ -1,6 +1,10 @@
 using System.Collections.Generic;
+using Rynchodon.Settings;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
+using Rynchodon.Weapons.Guided;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.ModAPI;
 using VRage.Game.ModAPI;
 using VRage.ModAPI;
@@ -11,12 +15,23 @@ namespace Rynchodon.Weapons
 	/// <summary>
 	/// For rotor-turrets and Autopilot-usable weapons.
 	/// </summary>
+	[IsEntityComponent(typeof(IMyCubeBlock), new[] {
+		typeof(MyObjectBuilder_SmallGatlingGun),
+		typeof(MyObjectBuilder_SmallMissileLauncher),
+		typeof(MyObjectBuilder_SmallMissileLauncherReload)
+	}, groupId: 1, order: 9)]
 	public sealed class FixedWeapon : WeaponTargeting
 	{
 
 		static FixedWeapon()
 		{
 			MessageHandler.AddHandler(MessageHandler.SubMod.FW_EngagerControl, Handler_EngagerControl);
+		}
+
+		[EntityComponentIf]
+		private static bool AttachIf(IMyCubeBlock block)
+		{
+			return ServerSettings.GetSetting<bool>(ServerSettings.SettingName.bAllowWeaponControl) && ValidWeaponBlock(block);
 		}
 
 		/// <summary>
@@ -56,7 +71,7 @@ namespace Rynchodon.Weapons
 		}
 
 		private readonly bool AllowFighterControl;
-
+		private readonly GuidedMissileLauncher Launcher;
 		private MotorTurret MyMotorTurret = null;
 
 		private Logable Log { get { return new Logable(CubeBlock); } }
@@ -68,6 +83,8 @@ namespace Rynchodon.Weapons
 			//Log.DebugLog("Initialized", "FixedWeapon()");
 
 			AllowFighterControl = WeaponDescription.GetFor(block).AllowFighterControl;
+			if (ServerSettings.GetSetting<bool>(ServerSettings.SettingName.bAllowGuidedMissile) && GuidedMissileLauncher.IsGuidedMissileLauncher(block))
+				Launcher = new GuidedMissileLauncher(this);
 		}
 
 		/// <summary>
@@ -104,6 +121,14 @@ namespace Rynchodon.Weapons
 		public IMyCubeBlock MotorTurretFaceBlock()
 		{
 			return MyMotorTurret == null || MyMotorTurret.StatorAz == null || MyMotorTurret.StatorAz.Closed ? null : (IMyCubeBlock)MyMotorTurret.StatorAz;
+		}
+
+		[OnEntityUpdate(1)]
+		private void EntityUpdate()
+		{
+			Update_Targeting();
+			if (Launcher != null)
+				Launcher.Update1();
 		}
 
 		/// <summary>

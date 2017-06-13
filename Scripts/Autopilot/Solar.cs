@@ -15,7 +15,7 @@ namespace Rynchodon.Autopilot
 	/// For any block that may be directed to point at the sun using motors.
 	/// </summary>
 	[IsSessionComponent(RunLocation.Server, true)]
-	[IsEntityComponent(typeof(IMyCubeBlock), new [] { typeof(MyObjectBuilder_OxygenFarm), typeof(MyObjectBuilder_SolarPanel) },  RunLocation.Server, groupId: 1, order: 1)]
+	[IsEntityComponent(typeof(IMyCubeBlock), new [] { typeof(MyObjectBuilder_OxygenFarm), typeof(MyObjectBuilder_SolarPanel) }, groupId: 1, order: 11)]
 	public class Solar
 	{
 
@@ -62,7 +62,7 @@ namespace Rynchodon.Autopilot
 			myBlock.OnClose -= myBlock_OnClose;
 		}
 
-		[OnEntityUpdate(100)]
+		[OnEntityUpdate(100, RunLocation.Server)]
 		public void Update100()
 		{
 			if (m_termControl_faceSun)
