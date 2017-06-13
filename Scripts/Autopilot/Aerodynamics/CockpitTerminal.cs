@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Rynchodon.Settings;
 using Rynchodon.Update.Components.Attributes;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities;
 using Sandbox.Game.Gui;
 using Sandbox.ModAPI;
@@ -13,6 +14,7 @@ using VRageMath;
 
 namespace Rynchodon.Autopilot.Aerodynamics
 {
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_Cockpit), groupId: 1, order: 6)]
 	[IsSessionComponent(RunLocation.Both, true)]
 	class CockpitTerminal
 	{
@@ -64,6 +66,12 @@ namespace Rynchodon.Autopilot.Aerodynamics
 				return value_instance;
 			}
 			set { value_instance = value; }
+		}
+
+		[EntityComponentIf]
+		public static bool ShouldAttachTo(IMyCubeBlock block)
+		{
+			return ServerSettings.GetSetting<bool>(ServerSettings.SettingName.bAirResistanceBeta);
 		}
 
 		[OnStaticSessionComponentInit]
@@ -273,6 +281,7 @@ namespace Rynchodon.Autopilot.Aerodynamics
 			Registrar.Add(this.m_cockpit, this);
 		}
 
+		[OnEntityUpdate(1)]
 		public void Update1()
 		{
 			if (!m_aeroShow)

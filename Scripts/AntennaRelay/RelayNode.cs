@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using Rynchodon.Attached;
+using Rynchodon.Autopilot;
 using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Sandbox.Common.ObjectBuilders;
@@ -17,7 +18,13 @@ namespace Rynchodon.AntennaRelay
 	/// <summary>
 	/// Full participant in a network, connects to other nodes.
 	/// </summary>
-	[IsEntityComponent(typeof(IMyCubeBlock), new[] { typeof(MyObjectBuilder_Beacon), typeof(MyObjectBuilder_LaserAntenna), typeof(MyObjectBuilder_RadioAntenna) }, RunLocation.Both, groupId: 1, order: 3)]
+	[IsEntityComponent(typeof(IMyCubeBlock), new[] {
+		typeof(MyObjectBuilder_Beacon),
+		typeof(MyObjectBuilder_Cockpit),
+		typeof(MyObjectBuilder_LaserAntenna),
+		typeof(MyObjectBuilder_RadioAntenna),
+		typeof(MyObjectBuilder_RemoteControl)
+	}, RunLocation.Both, groupId: 1, order: 3)]
 	[IsEntityComponent(typeof(IMyCharacter), new Type[] { }, RunLocation.Both, groupId: 1, order: 3)]
 	public class RelayNode : IRelayPart
 	{
@@ -39,9 +46,16 @@ namespace Rynchodon.AntennaRelay
 		[EntityComponentIf]
 		public static bool AttachIf(IMyEntity entity)
 		{
-			if (entity is IMyCubeBlock) return true;
 			IMyCharacter asCharacter = entity as IMyCharacter;
-			return asCharacter != null && asCharacter.IsPlayer;
+			if (asCharacter != null)
+				return asCharacter.IsPlayer;
+
+			IMyCubeBlock asBlock = entity as IMyCubeBlock;
+			var builder = asBlock.BlockDefinition.TypeId;
+			if (builder == typeof(MyObjectBuilder_Cockpit) || builder == typeof(MyObjectBuilder_RemoteControl))
+				return AutopilotTerminal.AttachIf(asBlock);
+
+			return true;
 		}
 
 		private readonly Func<string> m_debugName;

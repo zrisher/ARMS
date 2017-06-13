@@ -11,6 +11,7 @@ using Rynchodon.Update;
 using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities;
 using Sandbox.Game.Gui;
 using Sandbox.Game.Screens.Terminal.Controls;
@@ -24,6 +25,7 @@ namespace Rynchodon.Autopilot
 	/// <summary>
 	/// Autopilot terminal controls when not using GUI programming.
 	/// </summary>
+	[IsEntityComponent(typeof(IMyCubeBlock), new[] { typeof(MyObjectBuilder_Cockpit), typeof(MyObjectBuilder_RemoteControl) }, RunLocation.Client, groupId: 1, order: 5)]
 	[IsSessionComponent(RunLocation.Both, true)]
 	public class AutopilotTerminal
 	{
@@ -114,6 +116,13 @@ namespace Rynchodon.Autopilot
 		}
 
 		public static StaticVariables Static { get; private set; }
+
+		[EntityComponentIf]
+		public static bool AttachIf(IMyCubeBlock block)
+		{
+			// ONLY actual client, not single player. Already created for singleplayer & server by ShipAutopilot ctr.
+			return !MyAPIGateway.Multiplayer.IsServer && ShipAutopilot.IsAutopilotBlockGivenSettings(block);
+		}
 
 		[OnStaticSessionComponentInit]
 		private static void Load()

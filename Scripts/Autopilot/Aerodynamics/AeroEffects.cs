@@ -3,12 +3,15 @@
 #endif
 
 using System;
+using Rynchodon.Settings;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Rynchodon.Utility.Vectors;
 using Sandbox.Game.Entities;
 using Sandbox.Game.World;
 using Sandbox.ModAPI;
+using VRage.ModAPI;
 using VRage.Game.Components;
 using VRage.Game.ModAPI;
 using VRageMath;
@@ -18,8 +21,14 @@ namespace Rynchodon.Autopilot.Aerodynamics
 	/// <summary>
 	/// Applies the air effects to the grid. Runs AeroProfiler when needed.
 	/// </summary>
+	[IsEntityComponent(typeof(IMyCubeGrid), groupId: 1, order: 6)]
 	class AeroEffects
 	{
+		[EntityComponentIf]
+		public static bool ShouldAttachTo(IMyCubeGrid grid)
+		{
+			return ServerSettings.GetSetting<bool>(ServerSettings.SettingName.bAirResistanceBeta);
+		}
 
 		private class ProfileTask : RemoteTask
 		{
@@ -88,6 +97,7 @@ namespace Rynchodon.Autopilot.Aerodynamics
 			Registrar.Add(grid, this);
 		}
 
+		[OnEntityUpdate(1)]
 		public void Update1()
 		{
 			if (MyAPIGateway.Multiplayer.IsServer)
@@ -142,6 +152,7 @@ namespace Rynchodon.Autopilot.Aerodynamics
 			m_grid.Physics.AddForce(MyPhysicsForceType.ADD_BODY_FORCE_AND_BODY_TORQUE, null, null, impulse);
 		}
 
+		[OnEntityUpdate(100, RunLocation.Server)]
 		public void Update100()
 		{
 			FillAirDensity();

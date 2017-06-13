@@ -18,7 +18,7 @@ using Ingame = Sandbox.ModAPI.Ingame;
 
 namespace Rynchodon.AntennaRelay
 {
-	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_MyProgrammableBlock), groupId: 1, order: 4)]
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_MyProgrammableBlock), RunLocation.Server, groupId: 1, order: 4)]
 	[IsSessionComponent(RunLocation.Both, true)]
 	public class ProgrammableBlock : BlockInstructions
 	{
