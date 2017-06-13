@@ -2,6 +2,7 @@ using Rynchodon.Update.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities.Cube;
 using Sandbox.Game.Gui;
 using Sandbox.ModAPI;
@@ -14,6 +15,7 @@ namespace Rynchodon.AntennaRelay
 	/// <summary>
 	/// For players sending a message through the terminal.
 	/// </summary>
+	[IsEntityComponent(typeof(IMyCubeBlock), new [] { typeof(MyObjectBuilder_RadioAntenna), typeof(MyObjectBuilder_LaserAntenna) }, groupId: 1, order: 8)]
 	[IsSessionComponent(RunLocation.Both, true)]
 	class ManualMessage
 	{
