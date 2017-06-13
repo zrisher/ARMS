@@ -325,6 +325,7 @@
     <Compile Include="Utility\RayCast.cs" />
     <Compile Include="Utility\RelativeDirection3F.cs" />
     <Compile Include="Utility\Collections\ResourcePool.cs" />
+    <Compile Include="Utility\Settings\PlacementEnforcer.cs" />
     <Compile Include="Utility\Settings\ServerSettings.cs" />
     <Compile Include="Utility\Settings\Setting.cs" />
     <Compile Include="Utility\Settings\UserSettings.cs" />

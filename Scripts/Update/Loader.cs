@@ -15,6 +15,7 @@ namespace Rynchodon.Update
 		public void LoadWithSettings()
 		{
 			UpdateManager.RegisterComponentGroup(1);
+			UpdateManager.RegisterComponentGroup(2);
 		}
 	}
 }

@@ -113,6 +113,7 @@ namespace Rynchodon
 		private static List<MyPlanet> m_planets = new List<MyPlanet>();
 		private static FastResourceLock lock_voxels = new FastResourceLock();
 
+		[OnSessionUpdate(100)]
 		public static void Update100()
 		{
 			using (lock_voxels.AcquireExclusiveUsing())

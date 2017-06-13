@@ -18,7 +18,7 @@ namespace Rynchodon.Update
 	/// Saves/loads persistent data to/from a save file.
 	/// </summary>
 	/// TODO: client saving
-	[IsSessionComponent(RunLocation.Both, true, groupId: 4)]
+	[IsSessionComponent(RunLocation.Both, true, groupId: 2)]
 	public class Saver
 	{
 

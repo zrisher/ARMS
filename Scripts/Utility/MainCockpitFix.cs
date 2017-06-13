@@ -1,12 +1,24 @@
-﻿using System;
+using Rynchodon.Update.Components.Attributes;
+using System;
 using System.Reflection;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities;
 using Sandbox.Game.Entities.Cube;
 using Sandbox.Game.GameSystems;
 using Sandbox.ModAPI;
+using VRage.Game.ModAPI;
 
 namespace Rynchodon.Utility
 {
+	[IsEntityComponent(typeof(IMyCubeBlock), new[] { typeof(MyObjectBuilder_Cockpit), typeof(MyObjectBuilder_RemoteControl) }, groupId: 1, order: 12)]
+	public class FixedCockpit
+	{
+		public FixedCockpit(IMyCubeBlock block)
+		{
+			MainCockpitFix.AddController((IMyShipController)block);
+		}
+	}
+
 	/// <summary>
 	/// Fix a bug with main cockpit that prevents control from being released.
 	/// </summary>
