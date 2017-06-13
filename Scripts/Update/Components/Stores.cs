@@ -59,9 +59,13 @@ namespace Rynchodon.Update.Components.Stores
 		public void AddEntity(TEntity entity)
 		{
 			Logger.AlwaysLog($"{entity.nameWithId()}", Logger.severity.TRACE);
+
 			if (ComponentInstancesByEntity.Keys.Contains(entity))
 			{
-				Logger.AlwaysLog($"Already added {entity.nameWithId()}.", Logger.severity.ERROR);
+				if (typeof(TEntity) == typeof(IMyCubeBlock))
+					RaiseEvent(ComponentEventNames.BlockGridChange, entity);
+				else
+					Logger.AlwaysLog($"Already added {entity.nameWithId()}.", Logger.severity.ERROR);
 				return;
 			}
 

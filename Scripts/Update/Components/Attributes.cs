@@ -20,6 +20,7 @@ namespace Rynchodon.Update.Components.Attributes
 	/// </summary>
 	public static class ComponentEventNames
 	{
+		public const string BlockGridChange = "ARMS.BlockGridChange";
 		public const string EntityClose = "ARMS.EntityClose";
 		public const string SessionClose = "ARMS.SessionClose";
 		public const string StaticSessionComponentInit = "ARMS.SessionComponentInit"; // static session components have no ctr

@@ -232,7 +232,6 @@ namespace Rynchodon.Update
 					AddSlim(slim);
 
 				asGrid.OnBlockAdded += AddSlim;
-				asGrid.OnBlockRemoved += RemoveSlim;
 			}
 		}
 
@@ -240,8 +239,7 @@ namespace Rynchodon.Update
 		{
 			IMyCubeBlock asBlock = entity.FatBlock;
 			if (asBlock != null)
-				ComponentStore.AddEntity(asBlock);
-			// We skip entity.OnClosing and rely on Grid closing/remove instead to handle grid splits
+				AddEntity(asBlock);
 		}
 
 		private void RemoveEntity(IMyEntity entity)
@@ -252,29 +250,10 @@ namespace Rynchodon.Update
 			ComponentStore.RemoveEntity(entity);
 			entity.OnClosing -= RemoveEntity;
 
-			// CubeBlocks aren't included in Entities.OnEntityRemove
+			// CubeBlocks aren't included in Entities.OnEntityAdd
 			IMyCubeGrid asGrid = entity as IMyCubeGrid;
 			if (asGrid != null)
-			{
 				asGrid.OnBlockAdded -= AddSlim;
-				asGrid.OnBlockRemoved -= RemoveSlim;
-
-				var blocksInGrid = new List<IMySlimBlock>();
-				asGrid.GetBlocks(blocksInGrid, slim => slim.FatBlock != null);
-				foreach (IMySlimBlock slim in blocksInGrid)
-					RemoveSlim(slim);
-			}
-		}
-
-		private void RemoveSlim(IMySlimBlock entity)
-		{
-			if (ManagerStatus == Status.Terminated)
-				return;
-
-			IMyCubeBlock asBlock = entity.FatBlock;
-			if (asBlock != null)
-				RemoveEntity(asBlock);
-			// We skip entity.OnClosing and rely on Grid closing/remove instead to handle grid splits
 		}
 
 		#endregion
