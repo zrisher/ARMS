@@ -172,7 +172,7 @@ namespace Rynchodon.Update.Components.Attributes
 	/// <summary>
 	/// Identifies a class that provides a constructor taking an entity of type EntityType and instance handlers for updates and entity events.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Class)]
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 	public class IsEntityComponent : IsLogicComponent
 	{
 		public readonly Type EntityType;

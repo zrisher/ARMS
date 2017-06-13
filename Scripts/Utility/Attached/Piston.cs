@@ -7,7 +7,7 @@ namespace Rynchodon.Attached
 {
 	public static class Piston
 	{
-		[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_ExtendedPistonBase), RunLocation.Both, groupId: 1, order: int.MinValue)]
+		[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_ExtendedPistonBase), RunLocation.Both, groupId: 1, order: 2)]
 		public class PistonBase : AttachableBlockUpdate
 		{
 			public PistonBase(IMyCubeBlock block)

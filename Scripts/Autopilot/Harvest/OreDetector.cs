@@ -17,7 +17,7 @@ using VRageMath;
 namespace Rynchodon.Autopilot.Harvest
 {
 	[IsSessionComponent(RunLocation.Both, true)]
-	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_OreDetector), RunLocation.Server, groupId: 1)]
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_OreDetector), RunLocation.Server, groupId: 1, order: 1)]
 	public class OreDetector
 	{
 		[IsSessionComponent(RunLocation.Both, true)]

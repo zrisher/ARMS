@@ -8,7 +8,7 @@ using VRage.ModAPI;
 
 namespace Rynchodon.Attached
 {
-	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_LandingGear), RunLocation.Both, groupId: 1, order: int.MinValue)]
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_LandingGear), RunLocation.Both, groupId: 1, order: 2)]
 	public class LandingGear : AttachableBlockBase
 	{
 		private MyLandingGear myGear { get { return (MyLandingGear)myBlock; } }

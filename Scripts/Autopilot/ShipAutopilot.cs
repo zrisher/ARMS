@@ -57,7 +57,7 @@ namespace Rynchodon.Autopilot
 	/// <summary>
 	/// Core class for all Autopilot functionality.
 	/// </summary>
-	[IsEntityComponent(typeof(IMyCubeBlock), new[] { typeof(MyObjectBuilder_Cockpit), typeof(MyObjectBuilder_RemoteControl) }, RunLocation.Server, groupId: 1)]
+	[IsEntityComponent(typeof(IMyCubeBlock), new[] { typeof(MyObjectBuilder_Cockpit), typeof(MyObjectBuilder_RemoteControl) }, RunLocation.Server, groupId: 1, order: 1)]
 	public class ShipAutopilot
 	{
 

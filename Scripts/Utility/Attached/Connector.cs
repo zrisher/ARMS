@@ -5,7 +5,7 @@ using VRage.Game.ModAPI;
 
 namespace Rynchodon.Attached
 {
-	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_ShipConnector), RunLocation.Both, groupId: 1, order: int.MinValue)]
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_ShipConnector), RunLocation.Both, groupId: 1, order: 2)]
 	public class Connector : AttachableBlockUpdate
 	{
 		public Connector(IMyCubeBlock block)

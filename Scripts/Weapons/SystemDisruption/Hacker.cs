@@ -16,7 +16,7 @@ namespace Rynchodon.Weapons.SystemDisruption
 	/// <summary>
 	/// Hacks a ship, corrupting systems.
 	/// </summary>
-	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_LandingGear), RunLocation.Server, groupId: 1)]
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_LandingGear), RunLocation.Server, groupId: 1, order: 1)]
 	public class Hacker
 	{
 

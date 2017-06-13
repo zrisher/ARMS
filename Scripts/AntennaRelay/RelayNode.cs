@@ -2,10 +2,13 @@
 #define TRACE
 #endif
 
+
 using System;
 using System.Collections.Generic;
 using Rynchodon.Attached;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.ModAPI;
 using VRage.Game.ModAPI;
 using VRage.ModAPI;
@@ -15,6 +18,8 @@ namespace Rynchodon.AntennaRelay
 	/// <summary>
 	/// Full participant in a network, connects to other nodes.
 	/// </summary>
+	[IsEntityComponent(typeof(IMyCubeBlock), new[] { typeof(MyObjectBuilder_Beacon), typeof(MyObjectBuilder_LaserAntenna), typeof(MyObjectBuilder_RadioAntenna) }, RunLocation.Both, groupId: 1, order: 3)]
+	[IsEntityComponent(typeof(IMyCharacter), new Type[] { }, RunLocation.Both, groupId: 1, order: 3)]
 	public class RelayNode : IRelayPart
 	{
 
@@ -166,6 +171,7 @@ namespace Rynchodon.AntennaRelay
 		/// Updates direct connections between this node and other nodes.
 		/// When debug is set, checks connection to primary storage node.
 		/// </summary>
+		[OnEntityUpdate(100)]
 		public void Update100()
 		{
 			s_sendPositionTo.Clear();

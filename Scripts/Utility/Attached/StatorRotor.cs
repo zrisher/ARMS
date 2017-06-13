@@ -7,7 +7,7 @@ namespace Rynchodon.Attached
 {
 	public static class StatorRotor
 	{
-		[IsEntityComponent(typeof(IMyCubeBlock), new[] { typeof(MyObjectBuilder_MotorStator), typeof(MyObjectBuilder_MotorAdvancedStator), typeof(MyObjectBuilder_MotorSuspension) }, RunLocation.Both, groupId: 1, order: int.MinValue)]
+		[IsEntityComponent(typeof(IMyCubeBlock), new[] { typeof(MyObjectBuilder_MotorStator), typeof(MyObjectBuilder_MotorAdvancedStator), typeof(MyObjectBuilder_MotorSuspension) }, RunLocation.Both, groupId: 1, order: 2)]
 		public class Stator : AttachableBlockUpdate
 		{
 			public Stator(IMyCubeBlock block)
