@@ -2,11 +2,15 @@
 
 using System;
 using System.Collections.Generic;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.Definitions;
 using Sandbox.Game.Entities;
 using Sandbox.Game.Weapons;
 using Sandbox.ModAPI;
+using Rynchodon.Settings;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
+using Rynchodon.Weapons.Guided;
 using VRage.Game.Entity;
 using VRage.Game.ModAPI;
 using VRage.ModAPI;
@@ -14,8 +18,19 @@ using VRageMath;
 
 namespace Rynchodon.Weapons
 {
+	[IsEntityComponent(typeof(IMyCubeBlock), new [] {
+		typeof(MyObjectBuilder_LargeGatlingTurret),
+		typeof(MyObjectBuilder_LargeMissileTurret),
+		typeof(MyObjectBuilder_InteriorTurret)
+	}, groupId: 1, order: 9)]
 	public sealed class Turret : WeaponTargeting
 	{
+
+		[EntityComponentIf]
+		private static bool AttachIf(IMyCubeBlock block)
+		{
+			return ServerSettings.GetSetting<bool>(ServerSettings.SettingName.bAllowWeaponControl) && ValidWeaponBlock(block);
+		}
 
 		private readonly MyEntitySubpart m_barrel;
 		/// <summary>limits to determine whether or not a turret can face a target</summary>
@@ -24,7 +39,7 @@ namespace Rynchodon.Weapons
 		private readonly float speedElevation, speedAzimuth;
 		/// <summary>the turret is capable of rotating past ±180° (azimuth)</summary>
 		private readonly bool Can360;
-
+		private readonly GuidedMissileLauncher Launcher;
 		/// <summary>value set by Turret, updated when not controlling</summary>
 		private float setElevation, setAzimuth;
 
@@ -63,6 +78,17 @@ namespace Rynchodon.Weapons
 
 			//Log.DebugLog("definition limits = " + definition.MinElevationDegrees + ", " + definition.MaxElevationDegrees + ", " + definition.MinAzimuthDegrees + ", " + definition.MaxAzimuthDegrees, "Turret()");
 			//Log.DebugLog("radian limits = " + minElevation + ", " + maxElevation + ", " + minAzimuth + ", " + maxAzimuth, "Turret()");
+
+			if (ServerSettings.GetSetting<bool>(ServerSettings.SettingName.bAllowGuidedMissile) && GuidedMissileLauncher.IsGuidedMissileLauncher(block))
+				Launcher = new GuidedMissileLauncher(this);
+		}
+
+		[OnEntityUpdate(1)]
+		private void EntityUpdate()
+		{
+			Update_Targeting();
+			if (Launcher != null)
+				Launcher.Update1();
 		}
 
 		/// <summary>
