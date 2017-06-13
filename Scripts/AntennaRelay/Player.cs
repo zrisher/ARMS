@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using Rynchodon.Settings;
 using Rynchodon.Update;
+using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Weapons;
 using Rynchodon.Weapons.Guided;
@@ -22,6 +23,7 @@ using VRageMath;
 
 namespace Rynchodon.AntennaRelay
 {
+	[IsEntityComponent(typeof(IMyCharacter), groupId: 1, order: 5, runsOn: RunLocation.Client)]
 	public sealed class Player
 	{
 
@@ -80,7 +82,7 @@ namespace Rynchodon.AntennaRelay
 
 		private Logable Log { get { return new Logable(myPlayer?.DisplayName);  } }
 
-		public Player()
+		public Player(IMyCharacter character)
 		{
 			Data.Add(UserSettings.ByteSettingName.EnemiesOnHUD, new GpsData());
 			Data.Add(UserSettings.ByteSettingName.NeutralOnHUD, new GpsData());
@@ -103,13 +105,10 @@ namespace Rynchodon.AntennaRelay
 
 			m_updateIntervalGPS = UserSettings.GetSetting(UserSettings.ByteSettingName.UpdateIntervalHUD);
 			UpdateManager.Register(m_updateIntervalGPS, UpdateGPS);
-			UpdateManager.Register(100, Update);
-			UpdateManager.Register(30, MissileHudWarning);
-			UpdateManager.Register(1, MissileAudioWarning);
-
 			Log.DebugLog("initialized, identity id: " + myPlayer.IdentityId, Logger.severity.DEBUG);
 		}
 
+		[OnEntityUpdate(100)]
 		private void Update()
 		{
 			IMyEntity controlled = myPlayer.Controller.ControlledEntity as IMyEntity;
@@ -456,6 +455,7 @@ namespace Rynchodon.AntennaRelay
 		/// <summary>
 		/// Warn the player of incoming missile by beeping incessantly.
 		/// </summary>
+		[OnEntityUpdate(1)]
 		private void MissileAudioWarning()
 		{
 			if (Globals.UpdateCount < m_nextBeep || m_threat == null || m_threat.Stopped)
@@ -476,6 +476,7 @@ namespace Rynchodon.AntennaRelay
 		/// <summary>
 		/// Warn the player of incoming missile by displaying a message on the HUD.
 		/// </summary>
+		[OnEntityUpdate(30)]
 		private void MissileHudWarning()
 		{
 			if (m_threat != null)

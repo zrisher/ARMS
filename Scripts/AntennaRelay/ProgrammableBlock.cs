@@ -5,6 +5,7 @@ using Rynchodon.Instructions;
 using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility.Network;
 using Rynchodon.Utility;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities.Blocks;
 using Sandbox.Game.Entities.Cube;
 using Sandbox.Game.Gui;
@@ -17,6 +18,7 @@ using Ingame = Sandbox.ModAPI.Ingame;
 
 namespace Rynchodon.AntennaRelay
 {
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_MyProgrammableBlock), groupId: 1, order: 4)]
 	[IsSessionComponent(RunLocation.Both, true)]
 	public class ProgrammableBlock : BlockInstructions
 	{
@@ -156,6 +158,7 @@ namespace Rynchodon.AntennaRelay
 			this.m_blockCountList_sb = new StringBuilder(builder.BlockCountList);
 		}
 
+		[OnEntityUpdate(100, RunLocation.Server)]
 		public void Update100()
 		{
 			m_networkClient.GetStorage(); // force update so messages do not get stuck

@@ -58,8 +58,7 @@ namespace Rynchodon.Update.Components.Stores
 
 		public void AddEntity(TEntity entity)
 		{
-			Logger.AlwaysLog($"{entity.nameWithId()}", Logger.severity.TRACE);
-
+			//Logger.AlwaysLog($"{entity.nameWithId()}", Logger.severity.TRACE);
 			if (ComponentInstancesByEntity.Keys.Contains(entity))
 			{
 				if (typeof(TEntity) == typeof(IMyCubeBlock))
@@ -76,7 +75,7 @@ namespace Rynchodon.Update.Components.Stores
 
 		public void RemoveEntity(TEntity entity)
 		{
-			Logger.AlwaysLog($"{entity.nameWithId()}", Logger.severity.TRACE);
+			//Logger.AlwaysLog($"{entity.nameWithId()}", Logger.severity.TRACE);
 			if (!ComponentInstancesByEntity.Keys.Contains(entity))
 			{
 				Logger.AlwaysLog($"Never received {entity.nameWithId()}.", Logger.severity.ERROR);

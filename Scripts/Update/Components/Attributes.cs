@@ -184,7 +184,7 @@ namespace Rynchodon.Update.Components.Attributes
 		/// <param name="runsOn">Where this should run</param>
 		/// <param name="order">The order of registration within its component group, sorted ascending</param>
 		/// <param name="groupId">An identifier for the group of components with which this should be loaded</param>
-		public IsEntityComponent(Type entityType, Type[] builderTypes = null, RunLocation runsOn = RunLocation.Both, int order = 0, int groupId = 0) : base (false, runsOn, order, groupId)
+		public IsEntityComponent(Type entityType, Type[] builderTypes, RunLocation runsOn = RunLocation.Both, int order = 0, int groupId = 0) : base (false, runsOn, order, groupId)
 		{
 			BuilderTypes = builderTypes;
 			EntityType = entityType;
@@ -197,7 +197,7 @@ namespace Rynchodon.Update.Components.Attributes
 		/// <param name="groupId">An identifier for the group of components with which this should be loaded</param>
 		public IsEntityComponent(Type entityType, Type builderType = null, RunLocation runsOn = RunLocation.Both, int order = 0, int groupId = 0) : base(false, runsOn, order, groupId)
 		{
-			BuilderTypes = builderType == null ? null : new Type[] { builderType };
+			BuilderTypes = builderType == null ? new Type[] { } : new Type[] { builderType };
 			EntityType = entityType;
 		}
 	}

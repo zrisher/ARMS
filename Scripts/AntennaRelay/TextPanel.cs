@@ -8,6 +8,7 @@ using Rynchodon.Instructions;
 using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities.Blocks;
 using Sandbox.Game.Entities.Cube;
 using Sandbox.Game.Gui;
@@ -20,6 +21,7 @@ using Ingame = Sandbox.ModAPI.Ingame;
 
 namespace Rynchodon.AntennaRelay
 {
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_TextPanel), groupId: 1, order: 4)]
 	[IsSessionComponent(RunLocation.Both, true)]
 	public class TextPanel : BlockInstructions
 	{
@@ -164,6 +166,7 @@ namespace Rynchodon.AntennaRelay
 			return m_options != Option.None;
 		}
 
+		[OnEntityUpdate(100, RunLocation.Server)]
 		public void Update100()
 		{
 			UpdateInstructions();

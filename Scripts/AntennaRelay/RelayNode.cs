@@ -2,7 +2,6 @@
 #define TRACE
 #endif
 
-
 using System;
 using System.Collections.Generic;
 using Rynchodon.Attached;
@@ -36,6 +35,14 @@ namespace Rynchodon.AntennaRelay
 		private static int s_searchIdPool;
 		/// <summary>Storages that receive the position of this node but not data.</summary>
 		private static HashSet<RelayStorage> s_sendPositionTo = new HashSet<RelayStorage>();
+
+		[EntityComponentIf]
+		public static bool AttachIf(IMyEntity entity)
+		{
+			if (entity is IMyCubeBlock) return true;
+			IMyCharacter asCharacter = entity as IMyCharacter;
+			return asCharacter != null && asCharacter.IsPlayer;
+		}
 
 		private readonly Func<string> m_debugName;
 		private readonly Func<long> m_ownerId;

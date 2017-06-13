@@ -8,6 +8,7 @@ using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Rynchodon.Utility.Vectors;
+using Sandbox.Common.ObjectBuilders;
 using Sandbox.Definitions;
 using Sandbox.Game.Entities;
 using Sandbox.Game.Gui;
@@ -26,6 +27,7 @@ namespace Rynchodon.AntennaRelay
 	/// <summary>
 	/// Projects miniature ships. Could do asteroids / planets in the future or other entities.
 	/// </summary>
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_Projector), groupId: 1, order: 4)]
 	[IsSessionComponent(RunLocation.Both, true)]
 	public class Projector
 	{
@@ -522,6 +524,7 @@ namespace Rynchodon.AntennaRelay
 		/// <summary>
 		/// Check opts, load/unload
 		/// </summary>
+		[OnEntityUpdate(100, RunLocation.Client)]
 		public void Update100()
 		{
 			if (m_holoEntities.Count != 0 && DateTime.UtcNow >= m_clearAllAt)
@@ -624,6 +627,7 @@ namespace Rynchodon.AntennaRelay
 		/// <summary>
 		/// Updates positions & orientations
 		/// </summary>
+		[OnEntityUpdate(1, RunLocation.Client)]
 		public void Update1()
 		{
 			if (!Enabled || !m_playerCanSee)
