@@ -334,7 +334,7 @@ namespace Rynchodon.Update.Components.Descriptions
 
 		protected override bool InvokeConditionFunc(object attachedTo)
 		{
-			if (!(attachedTo is TEntity) || !ConditionFunc.Invoke((TEntity)attachedTo))
+			if (!(attachedTo is TEntity))
 				return false;
 
 			var asBlock = attachedTo as IMyCubeBlock;
@@ -342,7 +342,7 @@ namespace Rynchodon.Update.Components.Descriptions
 				if (!BuilderTypes.Any(x => x == asBlock.BlockDefinition.TypeId))
 					return false;
 
-			return true;
+			return ConditionFunc.Invoke((TEntity)attachedTo);
 		}
 	}
 

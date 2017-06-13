@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Xml.Serialization;
+using Rynchodon.Settings;
 using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
@@ -43,6 +44,8 @@ namespace Rynchodon.AntennaRelay
 	/// TODO:
 	/// guided missile reflectivity => RCS
 	/// when finished, replace assert is empty with clear
+	[IsEntityComponent(typeof(IMyCubeBlock), new [] { typeof(MyObjectBuilder_Beacon), typeof(MyObjectBuilder_RadioAntenna) }, groupId: 1, order: 7)]
+	[IsSessionComponent(RunLocation.Both, true, groupId: 1, order: 7)]
 	public sealed class RadarEquipment : IComparable<RadarEquipment>
 	{
 		[IsSessionComponent(RunLocation.Both, true)]
@@ -458,9 +461,16 @@ namespace Rynchodon.AntennaRelay
 
 		#endregion
 
+		[SessionComponentIf]
+		public static bool RadarEnabled()
+		{
+			return ServerSettings.GetSetting<bool>(ServerSettings.SettingName.bAllowRadar);
+		}
+
+		[EntityComponentIf]
 		public static bool IsDefinedRadarEquipment(IMyCubeBlock block)
 		{
-			return Definition.GetFor(block) != null;
+			return RadarEnabled() && Definition.GetFor(block) != null;
 		}
 
 		/// <summary>
@@ -553,6 +563,7 @@ namespace Rynchodon.AntennaRelay
 
 		#region Update
 
+		[OnSessionUpdate(100)]
 		public static void UpdateAll()
 		{
 			_thread.EnqueueAction(UpdateOnThread);
