@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rynchodon.Update
+namespace Rynchodon
 {
 	[IsSessionComponent(RunLocation.Both)]
 	class Loader
