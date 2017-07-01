@@ -103,7 +103,7 @@ namespace Rynchodon.Update.Components.Attributes
 		/// <param name="isStatic">Whether static or instance methods are used as handlers</param>
 		/// <param name="order">The order of registration within its component group, sorted ascending</param>
 		/// <param name="groupId">An identifier for the group of components with which this should be loaded</param>
-		public IsSessionComponent(RunLocation runsOn, bool isStatic = false, int order = 0, int groupId = 0) : base (isStatic, runsOn, order, groupId) { }
+		public IsSessionComponent(RunLocation runsOn = RunLocation.Both, bool isStatic = false, int order = 0, int groupId = 0) : base (isStatic, runsOn, order, groupId) { }
 	}
 
 	/// <summary>
