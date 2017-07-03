@@ -1,7 +1,7 @@
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using Rynchodon.AntennaRelay;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Rynchodon.Weapons.SystemDisruption;
@@ -15,7 +15,7 @@ using VRageMath;
 
 namespace Rynchodon.Weapons.Guided
 {
-	[IsSessionComponent(RunLocation.Both, true, groupId: 1, order: 10)]
+	[IsSessionComponent(isStatic: true, groupId: 1, order: 10)]
 	public sealed class GuidedMissile : TargetingBase
 	{
 

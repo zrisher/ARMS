@@ -8,7 +8,7 @@ using Sandbox.Game.Entities;
 using Sandbox.Game.Weapons;
 using Sandbox.ModAPI;
 using Rynchodon.Settings;
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Weapons.Guided;
 using VRage.Game.Entity;

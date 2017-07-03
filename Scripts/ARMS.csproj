@@ -220,12 +220,15 @@
     <Compile Include="Autopilot\Navigator\UnLander.cs" />
     <Compile Include="Properties\VersionInfo - User.cs" />
     <None Include="Properties\VersionInfo.cs" />
-    <Compile Include="Update\Components\Descriptions.cs" />
-    <Compile Include="Update\Components\Registration.cs" />
-    <Compile Include="Update\Components\Stores.cs" />
-    <Compile Include="Update\DisableNotifyDownload.cs" />
-    <Compile Include="Update\Loader.cs" />
-    <Compile Include="Update\Plugin.cs" />
+    <Compile Include="SEPC\Components\Core.cs" />
+    <Compile Include="SEPC\Extensions\MyFinalBuildConstants.cs" />
+    <Compile Include="SEPC\Plugin.cs" />
+    <Compile Include="SEPC\Components\Descriptions.cs" />
+    <Compile Include="SEPC\Components\Registrar.cs" />
+    <Compile Include="SEPC\Components\Stores.cs" />
+    <Compile Include="SEPC\Components\Session.cs" />
+    <Compile Include="Loader.cs" />
+    <Compile Include="Plugin.cs" />
     <Compile Include="Utility\Collections\ExpandingRings.cs" />
     <Compile Include="Autopilot\Pathfinding\Pathfinder.cs" />
     <Compile Include="Autopilot\Pathfinding\Pathfinder_LowLevel.cs" />
@@ -242,10 +245,9 @@
     <None Include="Programmable\ProgrammableBlockCommunication.cs" />
     <Compile Include="AntennaRelay\ManualMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Update\Components\Attributes.cs" />
+    <Compile Include="SEPC\Components\Attributes.cs" />
     <Compile Include="Update\Saver.cs" />
     <Compile Include="Update\SerializableGameTime.cs" />
-    <Compile Include="Update\UpdateManager.cs" />
     <Compile Include="Utility\Attached\AttachableBlockBase.cs" />
     <Compile Include="Utility\Attached\AttachableBlockUpdate.cs" />
     <Compile Include="Utility\Attached\AttachedGrid.cs" />
@@ -281,6 +283,7 @@
     <Compile Include="Utility\ByteConverter.cs" />
     <Compile Include="Utility\Collections\CubeGridCache.cs" />
     <Compile Include="Utility\Collections\LockedDeque.cs" />
+    <None Include="SEPC\Components\README.md" />
     <None Include="Utility\Collections\ReadOnlyList.cs" />
     <Compile Include="Utility\Collections\Registrar.cs" />
     <None Include="Utility\Extensions\CapsuleExtensions.cs" />
@@ -366,9 +369,7 @@
   <ItemGroup>
     <None Include="Programmable\.editorconfig" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utility\Components\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />

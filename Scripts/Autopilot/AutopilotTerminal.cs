@@ -1,3 +1,5 @@
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,8 +9,6 @@ using Rynchodon.Autopilot.Data;
 using Rynchodon.Autopilot.Instruction;
 using Rynchodon.Autopilot.Pathfinding;
 using Rynchodon.Settings;
-using Rynchodon.Update;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Sandbox.Common.ObjectBuilders;
@@ -26,7 +26,7 @@ namespace Rynchodon.Autopilot
 	/// Autopilot terminal controls when not using GUI programming.
 	/// </summary>
 	[IsEntityComponent(typeof(IMyCubeBlock), new[] { typeof(MyObjectBuilder_Cockpit), typeof(MyObjectBuilder_RemoteControl) }, RunLocation.Client, groupId: 1, order: 5)]
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public class AutopilotTerminal
 	{
 
@@ -382,9 +382,9 @@ namespace Rynchodon.Autopilot
 					return;
 				value_waitUpdate = value;
 				if (value_waitUpdate)
-					UpdateManager.Register(10u, RefreshWhileWaiting);
+					ComponentSession.RegisterUpdateHandler(10u, RefreshWhileWaiting);
 				else
-					UpdateManager.Unregister(10u, RefreshWhileWaiting);
+					ComponentSession.UnregisterUpdateHandler(10u, RefreshWhileWaiting);
 			}
 		}
 

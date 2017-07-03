@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Rynchodon.Settings;
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Rynchodon.Weapons.Guided;

@@ -1,8 +1,9 @@
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Rynchodon.Attached;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Settings;
 using Sandbox.Common.ObjectBuilders;

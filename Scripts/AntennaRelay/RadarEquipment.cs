@@ -2,6 +2,7 @@
 #define TRACE
 #endif
 
+using SEPC.Components.Attributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,6 @@ using System.Text;
 using System.Threading;
 using System.Xml.Serialization;
 using Rynchodon.Settings;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Rynchodon.Weapons.Guided;
@@ -45,10 +45,10 @@ namespace Rynchodon.AntennaRelay
 	/// guided missile reflectivity => RCS
 	/// when finished, replace assert is empty with clear
 	[IsEntityComponent(typeof(IMyCubeBlock), new [] { typeof(MyObjectBuilder_Beacon), typeof(MyObjectBuilder_RadioAntenna) }, groupId: 1, order: 7)]
-	[IsSessionComponent(RunLocation.Both, true, groupId: 1, order: 7)]
+	[IsSessionComponent(isStatic: true, groupId: 1, order: 7)]
 	public sealed class RadarEquipment : IComparable<RadarEquipment>
 	{
-		[IsSessionComponent(RunLocation.Both, true)]
+		[IsSessionComponent(isStatic: true)]
 		public sealed class Definition
 		{
 			/// <summary>Definition for a decoy block.</summary>

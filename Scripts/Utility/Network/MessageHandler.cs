@@ -1,11 +1,11 @@
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using Sandbox.ModAPI;
 
 namespace Rynchodon.Utility.Network
 {
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public static class MessageHandler
 	{
 

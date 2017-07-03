@@ -1,10 +1,11 @@
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Entities.Blocks;
 using Rynchodon.Settings;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Rynchodon.Utility.Vectors;
@@ -28,7 +29,7 @@ namespace Rynchodon.AntennaRelay
 	/// Projects miniature ships. Could do asteroids / planets in the future or other entities.
 	/// </summary>
 	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_Projector), groupId: 1, order: 4)]
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public class Projector
 	{
 

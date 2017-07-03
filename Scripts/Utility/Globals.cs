@@ -1,4 +1,4 @@
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using Sandbox.Game.Entities;
@@ -10,7 +10,7 @@ using VRageMath;
 
 namespace Rynchodon
 {
-	[IsSessionComponent(RunLocation.Both, true, order: int.MinValue)]
+	[IsSessionComponent(isStatic: true, order: int.MinValue)]
 	public static class Globals
 	{
 
@@ -67,8 +67,10 @@ namespace Rynchodon
 
 		public static readonly Random Random = new Random();
 
+		private static DateTime LastUpdateAt;
+
 		/// <summary>The number of updates since mod started.</summary>
-		public static ulong UpdateCount = 0;
+		public static ulong UpdateCount;
 
 		/// <summary>Simulation speed of game based on time between updates.</summary>
 		public static float SimSpeed = 1f;
@@ -113,6 +115,17 @@ namespace Rynchodon
 		private static List<MyPlanet> m_planets = new List<MyPlanet>();
 		private static FastResourceLock lock_voxels = new FastResourceLock();
 
+		[OnSessionUpdate]
+		public static void Update()
+		{
+			UpdateCount++;
+			float instantSimSpeed = UpdateDuration / (float)(DateTime.UtcNow - LastUpdateAt).TotalSeconds;
+			if (instantSimSpeed > 0.01f && instantSimSpeed < 1.1f)
+				SimSpeed = SimSpeed * 0.9f + instantSimSpeed * 0.1f;
+			//Log.DebugLog("instantSimSpeed: " + instantSimSpeed + ", SimSpeed: " + SimSpeed);
+			LastUpdateAt = DateTime.UtcNow;
+		}
+
 		[OnSessionUpdate(100)]
 		public static void Update100()
 		{
@@ -147,6 +160,8 @@ namespace Rynchodon
 		[OnStaticSessionComponentInit]
 		private static void Init()
 		{
+			LastUpdateAt = DateTime.UtcNow;
+			UpdateCount = 0;
 			WorldClosed = false;
 		}
 

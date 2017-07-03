@@ -1,3 +1,4 @@
+using SEPC.Components.Attributes;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -5,7 +6,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Rynchodon.Threading;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Collections;
 using Sandbox.ModAPI;
@@ -27,7 +27,7 @@ namespace Rynchodon
 	/// <para>#endif</para>
 	/// <para>Otherwise, an exception will be thrown by traceLog and TraceLog</para>
 	/// </remarks>
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public static class Logger
 	{
 

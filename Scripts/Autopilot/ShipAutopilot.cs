@@ -1,3 +1,5 @@
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +12,6 @@ using Rynchodon.Autopilot.Navigator;
 using Rynchodon.Autopilot.Pathfinding;
 using Rynchodon.Settings;
 using Rynchodon.Threading;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities;

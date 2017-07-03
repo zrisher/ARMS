@@ -1,12 +1,11 @@
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using Rynchodon.Update;
-using Rynchodon.Update.Components.Attributes;
-using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Sandbox.ModAPI;
 
@@ -15,7 +14,7 @@ namespace Rynchodon.Settings
 	/// <summary>
 	/// Some of the settings will be made available to clients.
 	/// </summary>
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public class ServerSettings
 	{
 		public enum SettingName : byte
@@ -219,7 +218,7 @@ namespace Rynchodon.Settings
 		private void SettingsLoaded()
 		{
 			m_settingsLoaded = true;
-			UpdateManager.RaiseSessionEvent("ARMS.ServerSettingsLoaded");
+			ComponentSession.RaiseSessionEvent("ARMS.ServerSettingsLoaded");
 		}
 
 		/// <summary>

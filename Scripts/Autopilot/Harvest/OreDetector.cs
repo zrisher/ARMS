@@ -1,9 +1,10 @@
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Rynchodon.AntennaRelay;
 using Rynchodon.Threading;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.Definitions;
@@ -16,11 +17,11 @@ using VRageMath;
 
 namespace Rynchodon.Autopilot.Harvest
 {
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_OreDetector), RunLocation.Server, groupId: 1, order: 1)]
 	public class OreDetector
 	{
-		[IsSessionComponent(RunLocation.Both, true)]
+		[IsSessionComponent(isStatic: true)]
 		private class VoxelData
 		{
 

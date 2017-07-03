@@ -1,4 +1,5 @@
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Sandbox.Common.ObjectBuilders;
@@ -14,7 +15,7 @@ namespace Rynchodon.Autopilot
 	/// <summary>
 	/// For any block that may be directed to point at the sun using motors.
 	/// </summary>
-	[IsSessionComponent(RunLocation.Server, true)]
+	[IsSessionComponent(RunLocation.Server, isStatic: true)]
 	[IsEntityComponent(typeof(IMyCubeBlock), new [] { typeof(MyObjectBuilder_OxygenFarm), typeof(MyObjectBuilder_SolarPanel) }, groupId: 1, order: 11)]
 	public class Solar
 	{

@@ -1,5 +1,6 @@
+using Rynchodon;
 using Rynchodon.Utility;
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using VRage.ModAPI;
 using VRage.ObjectBuilders;
 using VRage.Game.ModAPI;
 
-namespace Rynchodon.Update.Components.Descriptions
+namespace SEPC.Components.Descriptions
 {
 	/// <summary>
 	/// Holds the details of an action that handles component events
@@ -19,8 +20,8 @@ namespace Rynchodon.Update.Components.Descriptions
 		public readonly bool Debug;
 		public readonly string EventName;
 		public readonly uint Frequency;
-		public readonly int Order;
 		public readonly string MethodName;
+		public readonly int Order;
 		public readonly bool Profile;
 
 		public ComponentEventAction(Action action, bool debug, string eventName, uint frequency, string methodName, int order, bool profile)
@@ -62,7 +63,7 @@ namespace Rynchodon.Update.Components.Descriptions
 	}
 
 	/// <summary>
-	/// Holds the details of an instantiated logic component
+	/// Holds the details of an instantiated component
 	/// </summary>
 	public class ComponentInstanceDescription
 	{
@@ -77,43 +78,54 @@ namespace Rynchodon.Update.Components.Descriptions
 	}
 
 	/// <summary>
-	/// Contains a set of each type of logic component
+	/// Contains a set of each type of component
 	/// </summary>
 	public struct ComponentDescriptionCollection
 	{
 		public static ComponentDescriptionCollection FromAssembly(Assembly assembly, bool debug, bool profile)
 		{
-			return new ComponentDescriptionCollection
-			{
-				AssemblyName = assembly.GetName().Name,
-				Debug = debug,
-				Profile = profile,
-				BlockComponents = EntityComponentDescription<IMyCubeBlock>.AllFromAssembly(assembly, debug, profile),
-				CharacterComponents = EntityComponentDescription<IMyCharacter>.AllFromAssembly(assembly, debug, profile),
-				GridComponents = EntityComponentDescription<IMyCubeGrid>.AllFromAssembly(assembly, debug, profile),
-				SessionComponents = SessionComponentDescription.AllFromAssembly(assembly, debug, profile),
-			};
+			return new ComponentDescriptionCollection(
+				assembly.GetName().Name, debug, profile,
+				EntityComponentDescription<IMyCubeBlock>.AllFromAssembly(assembly, debug, profile),
+				EntityComponentDescription<IMyCharacter>.AllFromAssembly(assembly, debug, profile),
+				EntityComponentDescription<IMyCubeGrid>.AllFromAssembly(assembly, debug, profile),
+				SessionComponentDescription.AllFromAssembly(assembly, debug, profile)
+			);
 		}
 
-		public string AssemblyName;
-		public List<EntityComponentDescription<IMyCubeBlock>> BlockComponents;
-		public List<EntityComponentDescription<IMyCharacter>> CharacterComponents;
-		public List<EntityComponentDescription<IMyCubeGrid>> GridComponents;
-		public List<SessionComponentDescription> SessionComponents;
-		public bool Debug, Profile;
+		public readonly string AssemblyName;
+		public readonly bool Debug, Profile;
+		public readonly List<EntityComponentDescription<IMyCubeBlock>> BlockComponents;
+		public readonly List<EntityComponentDescription<IMyCharacter>> CharacterComponents;
+		public readonly List<EntityComponentDescription<IMyCubeGrid>> GridComponents;
+		public readonly List<SessionComponentDescription> SessionComponents;
+
+		public ComponentDescriptionCollection(
+			string assemblyName, bool debug, bool profile,
+			List<EntityComponentDescription<IMyCubeBlock>> blockComponents,
+			List<EntityComponentDescription<IMyCharacter>> characterComponents,
+			List<EntityComponentDescription<IMyCubeGrid>> gridComponents,
+			List<SessionComponentDescription> sessionComponents
+		)
+		{
+			AssemblyName = assemblyName;
+			Debug = debug;
+			Profile = profile;
+			BlockComponents = blockComponents;
+			CharacterComponents = characterComponents;
+			GridComponents = gridComponents;
+			SessionComponents = sessionComponents;
+		}
 
 		public ComponentDescriptionCollection SelectGroup(int groupdId)
 		{
-			return new ComponentDescriptionCollection()
-			{
-				AssemblyName = AssemblyName,
-				Debug = Debug,
-				Profile = Profile,
-				BlockComponents = BlockComponents.Where(x => x.GroupId == groupdId).ToList(),
-				CharacterComponents = CharacterComponents.Where(x => x.GroupId == groupdId).ToList(),
-				GridComponents = GridComponents.Where(x => x.GroupId == groupdId).ToList(),
-				SessionComponents = SessionComponents.Where(x => x.GroupId == groupdId).ToList(),
-			};
+			return new ComponentDescriptionCollection(
+				AssemblyName, Debug, Profile,
+				BlockComponents.Where(x => x.GroupId == groupdId).ToList(),
+				CharacterComponents.Where(x => x.GroupId == groupdId).ToList(),
+				GridComponents.Where(x => x.GroupId == groupdId).ToList(),
+				SessionComponents.Where(x => x.GroupId == groupdId).ToList()
+			);
 		}
 
 		public override string ToString()
@@ -123,7 +135,7 @@ namespace Rynchodon.Update.Components.Descriptions
 	}
 
 	/// <summary>
-	/// Derives the details of a LogicComponent from its attributes
+	/// Derives the details of a Component from its attributes
 	/// </summary>
 	public abstract class ComponentDescription
 	{
@@ -213,7 +225,7 @@ namespace Rynchodon.Update.Components.Descriptions
 
 		protected List<ComponentEventMethod> EventMethods;
 
-		public ComponentDescription(IsLogicComponent attribute, Type componentClass, bool debug, bool profile)
+		public ComponentDescription(IsComponent attribute, Type componentClass, bool debug, bool profile)
 		{
 			ComponentClass = componentClass;
 			Debug = debug;
@@ -248,7 +260,7 @@ namespace Rynchodon.Update.Components.Descriptions
 
 		public override string ToString()
 		{
-			return $"<LogicComponentDescription ComponentClass: {ComponentClass}, Order: {Order}, GroupId: {GroupId}, IsStatic: {IsStatic}, RunsOn: {RunsOn}, EventMethods: {EventMethods.Count()} >";
+			return $"<ComponentDescription ComponentClass: {ComponentClass}, Order: {Order}, GroupId: {GroupId}, IsStatic: {IsStatic}, RunsOn: {RunsOn}, EventMethods: {EventMethods.Count()} >";
 		}
 
 		/// <summary>

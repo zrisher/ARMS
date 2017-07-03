@@ -1,10 +1,11 @@
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System; // partial
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using Rynchodon.AntennaRelay;
 using Rynchodon.Autopilot;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Rynchodon.Weapons;
@@ -18,7 +19,7 @@ namespace Rynchodon.Update
 	/// Saves/loads persistent data to/from a save file.
 	/// </summary>
 	/// TODO: client saving
-	[IsSessionComponent(RunLocation.Both, true, groupId: 2)]
+	[IsSessionComponent(isStatic: true, groupId: 2)]
 	public class Saver
 	{
 
@@ -165,7 +166,7 @@ namespace Rynchodon.Update
 			{
 				Logger.DebugLog("All LastSeen have been successfully added", Rynchodon.Logger.severity.INFO);
 				m_failedLastSeen = null;
-				UpdateManager.Unregister(100, RetryLastSeen);
+				ComponentSession.UnregisterUpdateHandler(100, RetryLastSeen);
 			}
 			else
 			{
@@ -177,7 +178,7 @@ namespace Rynchodon.Update
 						foreach (LastSeen.Builder_LastSeen builder in storageLastSeen.Value)
 							Logger.AlwaysLog("Failed to add last seen to world. Primary node: " + storageLastSeen.Key + ", entity ID: " + builder.EntityId, Rynchodon.Logger.severity.WARNING);
 					m_failedLastSeen = null;
-					UpdateManager.Unregister(100, RetryLastSeen);
+					ComponentSession.UnregisterUpdateHandler(100, RetryLastSeen);
 				}
 			}
 		}
@@ -291,7 +292,7 @@ namespace Rynchodon.Update
 						if (m_failedLastSeen == null)
 						{
 							m_failedLastSeen = new CachingDictionary<long, CachingList<LastSeen.Builder_LastSeen>>();
-							UpdateManager.Register(100, RetryLastSeen);
+							ComponentSession.RegisterUpdateHandler(100, RetryLastSeen);
 						}
 						CachingList<LastSeen.Builder_LastSeen> list;
 						if (!m_failedLastSeen.TryGetValue(bns.PrimaryNode, out list))

@@ -1,13 +1,13 @@
+using SEPC.Components.Attributes;
 using System.Collections.Generic; // from mscorlib.dll, System.dll, System.Core.dll, and VRage.Library.dll
 using Rynchodon.Settings;
-using Rynchodon.Update.Components.Attributes;
 using Sandbox.ModAPI; // from Sandbox.Common.dll
 using VRage.Game.ModAPI; // from VRage.Game.dll
 using VRage.ModAPI;
 
 namespace Rynchodon.Autopilot.Harvest
 {
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public class ImmortalMiner
 	{
 

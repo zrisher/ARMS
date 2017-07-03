@@ -1,4 +1,4 @@
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components.Attributes;
 using System; // partial
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +13,7 @@ namespace Rynchodon.Utility
 	/// Keep in mind that this will include time spent waiting on a lock.
 	/// Sum counts the time spent in the outermost blocks.
 	/// </summary>
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public class Profiler
 	{
 

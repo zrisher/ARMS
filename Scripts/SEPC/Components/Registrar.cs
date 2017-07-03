@@ -1,18 +1,18 @@
-using Rynchodon.Update.Components.Descriptions;
+using SEPC.Components.Descriptions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-namespace Rynchodon.Update.Components.Registration
+namespace SEPC.Components
 {
 	/// <summary>
 	/// Persists while game is open, through multiple sessions.
-	/// Holds descriptions of the LogicComponents defined in loaded assemblies.
+	/// Holds descriptions of the Components defined in loaded assemblies.
 	/// Assemblies can specify groups to load on session init and if events should be profiled / debugged.
 	/// </summary>
-	public static class LogicComponentRegistrar
+	public static class ComponentRegistrar
 	{
 		private static readonly HashSet<Assembly> AssembliesToDebug = new HashSet<Assembly>();
 		private static readonly HashSet<Assembly> AssembliesToProfile = new HashSet<Assembly>();
@@ -51,7 +51,7 @@ namespace Rynchodon.Update.Components.Registration
 		}
 
 		/// <summary>
-		/// Defines all the logic components within the calling assembly and stores them for use within a session.
+		/// Defines all the components within the calling assembly and stores them for use within a session.
 		/// Should be called once within game instance before a session is loaded, e.g. within IPlugin.Init().
 		/// </summary>
 		public static void AddComponents()

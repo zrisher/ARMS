@@ -1,3 +1,5 @@
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using Sandbox.ModAPI;
@@ -9,6 +11,7 @@ namespace Rynchodon.Threading
 	/// <para>Identifies the current thread by a name and a number.</para>
 	/// <para>Persistent threads must be named to avoid conflicts.</para>
 	/// </summary>
+	[IsSessionComponent(isStatic: true, groupId: (int)ComponentGroups.Init, order: (int)InitGroupOrder.ThreadTracker)]
 	public static class ThreadTracker
 	{
 
@@ -119,6 +122,7 @@ namespace Rynchodon.Threading
 		/// <summary>
 		/// Sets the name of the current thread to GameThread_Name.
 		/// </summary>
+		[OnStaticSessionComponentInit]
 		public static void SetGameThread()
 		{ ThreadName = GameThread_Name; }
 

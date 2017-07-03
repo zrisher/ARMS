@@ -1,4 +1,5 @@
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.ModAPI;
 using VRage.Game.ModAPI;

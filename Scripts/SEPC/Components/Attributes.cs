@@ -1,48 +1,21 @@
 using System;
 
-namespace Rynchodon.Update.Components.Attributes
+namespace SEPC.Components.Attributes
 {
-	#region Helper classes
-
-	[Flags]
-	public enum RunLocation
-	{
-		None = 0,
-		Client = 1,
-		Server = 2,
-		Both = Client | Server
-	}
-
-	/// <summary>
-	/// A set of basic component event names.
-	/// Can be easily extended by other Assemblies, because component event names are simple strings.
-	/// By introducing custom event names and handlers, consumers can rely on event-driven architecture.
-	/// </summary>
-	public static class ComponentEventNames
-	{
-		public const string BlockGridChange = "ARMS.BlockGridChange";
-		public const string EntityClose = "ARMS.EntityClose";
-		public const string SessionClose = "ARMS.SessionClose";
-		public const string StaticSessionComponentInit = "ARMS.SessionComponentInit"; // static session components have no ctr
-		public const string SessionSave = "ARMS.SessionSave";
-		public const string Update = "ARMS.Update";
-	}
-
-	#endregion
-	#region LogicComponent Abstract Attributes
+	#region Component Abstract Attributes
 
 	/// <summary>
 	/// Describes a class that contains event and update handlers.
 	/// Implemented by IsEntityComponent and IsSessionComponent.
 	/// </summary>
-	public abstract class IsLogicComponent : Attribute
+	public abstract class IsComponent : Attribute
 	{ 
-		public readonly int GroupId; // Optional id for group of components that are loaded together
+		public readonly int GroupId; // Optional id for a group of components that are loaded together
 		public readonly int Order; // Optional order of loading within its group, sorted ascending
 		public readonly bool IsStatic; // For SessionComponents
 		public readonly RunLocation RunsOn;
 
-		public IsLogicComponent(bool isStatic, RunLocation runsOn, int order, int groupId)
+		public IsComponent(bool isStatic, RunLocation runsOn, int order, int groupId)
 		{
 			GroupId = groupId;
 			IsStatic = isStatic;
@@ -57,12 +30,12 @@ namespace Rynchodon.Update.Components.Attributes
 	/// </summary>
 	public abstract class HandlesComponentEvents : Attribute
 	{
-		public readonly uint Frequency; // For Updates
+		public readonly uint Frequency; // For Update Events
 		public readonly int Order; // For Session Events
 		public readonly RunLocation RunsOn;
 		public readonly string EventName;
 
-		public HandlesComponentEvents(string eventName, RunLocation runsOn, int order = 0, uint frequency = 1)
+		public HandlesComponentEvents(string eventName, RunLocation runsOn, int order, uint frequency)
 		{
 			Frequency = frequency;
 			Order = order;
@@ -86,7 +59,7 @@ namespace Rynchodon.Update.Components.Attributes
 	/// </summary>
 	public abstract class HandlesSessionEvents : HandlesComponentEvents
 	{
-		public HandlesSessionEvents(string eventName, RunLocation runsOn, int order = 0, uint frequency = 1) : base(eventName, runsOn, order, frequency) { }
+		public HandlesSessionEvents(string eventName, RunLocation runsOn, int order, uint frequency = 1) : base(eventName, runsOn, order, frequency) { }
 	}
 
 	#endregion
@@ -97,7 +70,7 @@ namespace Rynchodon.Update.Components.Attributes
 	/// If isStatic is false, should provide a parameterless constructor and instance methods for handlers.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class)]
-	public class IsSessionComponent : IsLogicComponent
+	public class IsSessionComponent : IsComponent
 	{
 		/// <param name="runsOn">Where this should be loaded</param>
 		/// <param name="isStatic">Whether static or instance methods are used as handlers</param>
@@ -105,12 +78,6 @@ namespace Rynchodon.Update.Components.Attributes
 		/// <param name="groupId">An identifier for the group of components with which this should be loaded</param>
 		public IsSessionComponent(RunLocation runsOn = RunLocation.Both, bool isStatic = false, int order = 0, int groupId = 0) : base (isStatic, runsOn, order, groupId) { }
 	}
-
-	/// <summary>
-	/// Identifies a parameterless static method that decides if the component should be created (if not static) and loaded.
-	/// </summary>
-	[AttributeUsage(AttributeTargets.Method)]
-	public class SessionComponentIf : Attribute { }
 
 	/// <summary>
 	/// Identifies a method that runs when the session is closed. Should be instance/static depending on if the component IsStatic.
@@ -121,16 +88,6 @@ namespace Rynchodon.Update.Components.Attributes
 		/// <param name="order">The GLOBAL order in which this handler should be called among all other handlers for this event</param>
 		/// <param name="runsOn">Where this should run</param>
 		public OnSessionClose(RunLocation runsOn = RunLocation.Both, int order = 0) : base(ComponentEventNames.SessionClose, runsOn, order) { }
-	}
-
-	/// <summary>
-	/// Identifies a static method that runs when its static session component is loaded.
-	/// </summary>
-	[AttributeUsage(AttributeTargets.Method)]
-	public class OnStaticSessionComponentInit : HandlesSessionEvents
-	{
-		/// <param name="runsOn">Where this should run</param>
-		public OnStaticSessionComponentInit(RunLocation runsOn = RunLocation.Both) : base(ComponentEventNames.StaticSessionComponentInit, runsOn, 0) { }
 	}
 
 	/// <summary>
@@ -164,8 +121,24 @@ namespace Rynchodon.Update.Components.Attributes
 	{
 		/// <param name="frequency">The number of frames to wait between calls</param>
 		/// <param name="runsOn">Where this should run</param>
-		public OnSessionUpdate(uint frequency, RunLocation runsOn = RunLocation.Both) : base(ComponentEventNames.Update, runsOn, 0, frequency) { }
+		public OnSessionUpdate(uint frequency = 1, RunLocation runsOn = RunLocation.Both) : base(ComponentEventNames.Update, runsOn, 0, frequency) { }
 	}
+
+	/// <summary>
+	/// Identifies a static method that runs when its static session component is loaded.
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Method)]
+	public class OnStaticSessionComponentInit : HandlesSessionEvents
+	{
+		/// <param name="runsOn">Where this should run</param>
+		public OnStaticSessionComponentInit(RunLocation runsOn = RunLocation.Both) : base(ComponentEventNames.StaticSessionComponentInit, runsOn, 0) { }
+	}
+
+	/// <summary>
+	/// Identifies a parameterless static method that decides if the component should be created (if not static) and loaded.
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Method)]
+	public class SessionComponentIf : Attribute { }
 
 	#endregion
 	#region EntityComponent Attributes
@@ -174,7 +147,7 @@ namespace Rynchodon.Update.Components.Attributes
 	/// Identifies a class that provides a constructor taking an entity of type EntityType and instance handlers for updates and entity events.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-	public class IsEntityComponent : IsLogicComponent
+	public class IsEntityComponent : IsComponent
 	{
 		public readonly Type EntityType;
 		public readonly Type[] BuilderTypes;
@@ -203,13 +176,7 @@ namespace Rynchodon.Update.Components.Attributes
 	}
 
 	/// <summary>
-	/// Identifies a static method of an EntityComponent that takes an instance of its EntityType and decides if an instance of the component should be created and loaded.
-	/// </summary>
-	[AttributeUsage(AttributeTargets.Method)]
-	public class EntityComponentIf : Attribute { }
-
-	/// <summary>
-	/// Identifies an instance method of an EntityComponent that should run when the entity closes.
+	/// Identifies an instance method that should run when the entity closes.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Method)]
 	public class OnEntityClose : HandlesEntityEvents
@@ -219,7 +186,7 @@ namespace Rynchodon.Update.Components.Attributes
 	}
 
 	/// <summary>
-	/// Identifies a method that handles custom entity events.
+	/// Identifies an instance method that handles custom entity events.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Method)]
 	public class OnEntityEvent : HandlesEntityEvents
@@ -239,6 +206,12 @@ namespace Rynchodon.Update.Components.Attributes
 		/// <param name="runsOn">Where this should run. Restricted first by Component's RunLocation.</param>
 		public OnEntityUpdate(uint frequency, RunLocation runsOn = RunLocation.Both) : base(ComponentEventNames.Update, runsOn, frequency) { }
 	}
+
+	/// <summary>
+	/// Identifies a static method of an EntityComponent that takes an instance of its EntityType and decides if an instance of the component should be created and loaded.
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Method)]
+	public class EntityComponentIf : Attribute { }
 
 	#endregion
 }

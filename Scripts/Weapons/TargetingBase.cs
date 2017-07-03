@@ -2,12 +2,12 @@
 //#define TRACE
 #endif
 
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Rynchodon.AntennaRelay;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities;
@@ -24,7 +24,7 @@ using System.Diagnostics;
 
 namespace Rynchodon.Weapons
 {
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public abstract class TargetingBase
 	{
 

@@ -1,4 +1,4 @@
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components.Attributes;
 using Rynchodon.Weapons.SystemDisruption;
 using Sandbox.Common.ObjectBuilders;
 using SpaceEngineers.Game.Entities.Blocks;
@@ -8,7 +8,7 @@ using VRage.ModAPI;
 
 namespace Rynchodon.Attached
 {
-	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_LandingGear), RunLocation.Both, groupId: 1, order: 2)]
+	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_LandingGear), groupId: 1, order: 2)]
 	public class LandingGear : AttachableBlockBase
 	{
 		private MyLandingGear myGear { get { return (MyLandingGear)myBlock; } }

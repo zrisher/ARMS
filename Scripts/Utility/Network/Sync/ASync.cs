@@ -2,20 +2,20 @@
 #define TRACE
 #endif
 
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Sandbox.ModAPI;
 using VRage.Collections;
-using Rynchodon.Update.Components.Attributes;
 
 namespace Rynchodon.Utility.Network
 {
 	/// <summary>
 	/// Objects of this type synchronize and save events or values.
 	/// </summary>
-	[IsSessionComponent(RunLocation.Both, true, order: int.MinValue + 1)]
+	[IsSessionComponent(isStatic: true, order: int.MinValue + 1)]
 	public abstract class ASync : LogWise
 	{
 		/// <summary>

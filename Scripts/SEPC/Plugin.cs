@@ -1,36 +1,43 @@
-using System.Reflection;
+using Rynchodon;
 using Sandbox.Game.World;
+using SEPC.Extensions;
+using System.Reflection;
+using VRage.Game;
 using VRage.Plugins;
 
-namespace Rynchodon.SEPC
+namespace SEPC
 {
 	/// <summary>
+	/// The entry point for SEPC's game logic.
 	/// Loaded with the game and persists until it's closed.
-	/// Registers UpdateManager as a MySessionComponent, allowing it to serve as the entry point for all other logic.
 	/// </summary>
 	public class Plugin : IPlugin
 	{
-		private bool Initialized;
+		private bool SessionComponentsRegistered;
 
 		public void Dispose() { }
 
-		public void Init(object gameInstance) { }
-
-		public void Update()
+		public void Init(object gameInstance)
 		{
-			if (!Initialized)
-				Initialize();
+			if (!MyFinalBuildConstantsExtensions.GetBool("IS_OFFICIAL"))
+				Logger.AlwaysLog("Space Engineers build is UNOFFICIAL", Logger.severity.WARNING);
+			if (MyFinalBuildConstantsExtensions.GetBool("IS_DEBUG"))
+				Logger.AlwaysLog("Space Engineers build is DEBUG", Logger.severity.WARNING);
+
+			Logger.AlwaysLog("Space Engineers version: " + MyFinalBuildConstants.APP_VERSION_STRING, Logger.severity.INFO);
 		}
 
-		private void Initialize()
+		/// <summary>
+		/// Registers ComponentSession with SE as a MySessionComponent, allowing it to serve as the entry point for all Session logic.
+		/// </summary>
+		public void Update()
 		{
-			if (MySession.Static == null || !MySession.Static.Ready)
+			if (SessionComponentsRegistered || MySession.Static == null || !MySession.Static.Ready)
 				return;
 
-			Logger.DebugLog("Registering UpdateManager as MySessionComponent.");
+			Logger.DebugLog("Registering ComponentSession as a MySessionComponent.");
 			MySession.Static.RegisterComponentsFromAssembly(Assembly.GetExecutingAssembly(), true);
-
-			Initialized = true;
+			SessionComponentsRegistered = true;
 		}
 	}
 }

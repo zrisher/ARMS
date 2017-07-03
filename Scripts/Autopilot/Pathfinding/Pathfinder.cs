@@ -10,7 +10,7 @@ using Rynchodon.Attached;
 using Rynchodon.Autopilot.Data;
 using Rynchodon.Autopilot.Movement;
 using Rynchodon.Threading;
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components.Attributes;
 using Rynchodon.Utility;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities;
@@ -35,7 +35,7 @@ namespace Rynchodon.Autopilot.Pathfinding
 	/// 
 	/// Obviously it is a lot more complicated than that but if anyone is actually reading this and has questions, just ask.
 	/// </remarks>
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public partial class Pathfinder
 	{
 

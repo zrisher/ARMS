@@ -1,4 +1,4 @@
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +16,7 @@ namespace Rynchodon.AntennaRelay
 	/// For players sending a message through the terminal.
 	/// </summary>
 	[IsEntityComponent(typeof(IMyCubeBlock), new [] { typeof(MyObjectBuilder_RadioAntenna), typeof(MyObjectBuilder_LaserAntenna) }, groupId: 1, order: 8)]
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	class ManualMessage
 	{
 

@@ -2,11 +2,11 @@
 #define TRACE
 #endif
 
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Rynchodon.Update;
-using Rynchodon.Update.Components.Attributes;
 using Sandbox.Game.World;
 using Sandbox.ModAPI;
 
@@ -17,7 +17,7 @@ namespace Rynchodon.Utility.Network
 	/// Allows the server to request that a client executes some task.
 	/// </summary>
 	/// TODO: sim speed check?
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	abstract class RemoteTask
 	{
 
@@ -350,7 +350,7 @@ namespace Rynchodon.Utility.Network
 			Logger.TraceLog("entered");
 
 			KeepAlive();
-			UpdateManager.Register(100, Monitor);
+			ComponentSession.RegisterUpdateHandler(100, Monitor);
 		}
 
 		private void Monitor()
@@ -375,7 +375,7 @@ namespace Rynchodon.Utility.Network
 		{
 			Logger.TraceLog("entered");
 
-			UpdateManager.Unregister(100, Monitor);
+			ComponentSession.UnregisterUpdateHandler(100, Monitor);
 			if (!m_outstandingTask.Remove(TaskId))
 				Logger.AlwaysLog("Failed to remove task: " + TaskId + ", " + this, Logger.severity.ERROR);
 			TryDecrementOutstandingTasks(SteamId);
@@ -390,7 +390,7 @@ namespace Rynchodon.Utility.Network
 			Logger.TraceLog("entered");
 
 			KeepAlive();
-			UpdateManager.Register(100, Heartbeat);
+			ComponentSession.RegisterUpdateHandler(100, Heartbeat);
 			Start();
 		}
 
@@ -418,7 +418,7 @@ namespace Rynchodon.Utility.Network
 			if (CurrentStatus != Status.Started)
 				throw new Exception("Cannot change status, already " + CurrentStatus);
 
-			UpdateManager.Unregister(100, Heartbeat);
+			ComponentSession.UnregisterUpdateHandler(100, Heartbeat);
 			CurrentStatus = result;
 			SendStatus(this);
 		}

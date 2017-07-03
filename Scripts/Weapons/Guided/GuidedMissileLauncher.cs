@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Rynchodon.AntennaRelay;
 using Rynchodon.Settings;
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Sandbox.Definitions;
@@ -23,7 +23,7 @@ using VRageMath;
 
 namespace Rynchodon.Weapons.Guided
 {
-	[IsSessionComponent(RunLocation.Both, true, groupId: 1, order: 10)]
+	[IsSessionComponent(isStatic: true, groupId: 1, order: 10)]
 	public class GuidedMissileLauncher
 	{
 		private const ulong checkInventoryInterval = Globals.UpdatesPerSecond;

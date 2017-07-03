@@ -1,12 +1,12 @@
-using Rynchodon.Update.Components.Attributes;
-using Rynchodon.Update.Components.Descriptions;
+using Rynchodon;
+using SEPC.Components.Descriptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using VRage.Game.ModAPI;
 using VRage.ModAPI;
 
-namespace Rynchodon.Update.Components.Stores
+namespace SEPC.Components.Stores
 {
 	public abstract class ComponentStore
 	{
@@ -180,11 +180,12 @@ namespace Rynchodon.Update.Components.Stores
 	}
 
 	/// <summary>
-	/// Holds a set of logic components and the entities they're attached to.
+	/// Holds a set of components and the entities they're attached to.
 	/// Provides helpers to add/remove and raise events and updates.
 	/// </summary>
 	public class ComponentCollectionStore : ComponentStore
 	{
+		private ulong Frame;
 		private EntityComponentStore<IMyCubeBlock> BlockStore;
 		private EntityComponentStore<IMyCharacter> CharacterStore;
 		private EntityComponentStore<IMyCubeGrid> GridStore;
@@ -214,6 +215,21 @@ namespace Rynchodon.Update.Components.Stores
 			foreach (var component in collection.GridComponents)
 				GridStore.AddComponent(component);
 
+		}
+
+		/// <summary>
+		/// We don't want one crappy mod to ruin everyone else's day!
+		/// </summary>
+		public void TryAddCollection(ComponentDescriptionCollection collection)
+		{
+			try
+			{
+				AddCollection(collection);
+			}
+			catch (Exception error)
+			{
+				Logger.AlwaysLog($"Failed to add collection: {collection}" + error, Logger.severity.ERROR);
+			}
 		}
 
 		public void AddUpdateHandler(uint frequency, Action action)
@@ -282,10 +298,11 @@ namespace Rynchodon.Update.Components.Stores
 			SessionStore.RaiseEvent(eventName);
 		}
 
-		public void Update(ulong frame)
+		public void Update()
 		{
+			Frame++;
 			foreach (var kvp in SharedUpdateRegistry)
-				if (frame % kvp.Key == 0)
+				if (Frame % kvp.Key == 0)
 					kvp.Value.RemoveWhere(x => !x.TryInvoke());
 		}
 	}

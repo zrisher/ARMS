@@ -2,9 +2,10 @@
 //#define DEBUG_IN_SPACE
 #endif
 
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using Rynchodon.Settings;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Rynchodon.Utility.Vectors;
@@ -49,7 +50,7 @@ namespace Rynchodon.Autopilot.Aerodynamics
 			{
 				IMyCubeGrid grid = (IMyCubeGrid)MyAPIGateway.Entities.GetEntityById(EntityId);
 				Profiler = new AeroProfiler(grid);
-				Update.UpdateManager.Register(100, CheckProfiler);
+				ComponentSession.RegisterUpdateHandler(100, CheckProfiler);
 			}
 
 			private void CheckProfiler()
@@ -57,7 +58,7 @@ namespace Rynchodon.Autopilot.Aerodynamics
 				if (Profiler.Running)
 					return;
 
-				Update.UpdateManager.Unregister(100, CheckProfiler);
+				ComponentSession.UnregisterUpdateHandler(100, CheckProfiler);
 				if (Profiler.Success)
 				{
 					DragCoefficient = Profiler.DragCoefficient;

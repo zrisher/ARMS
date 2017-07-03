@@ -1,10 +1,9 @@
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Sandbox.ModAPI;
-using Rynchodon.Update.Components.Attributes;
-using Rynchodon.Utility;
 using VRageMath;
 
 namespace Rynchodon.Settings
@@ -12,7 +11,7 @@ namespace Rynchodon.Settings
 	/// <summary>
 	/// <para>Per-user settings that will be saved locally and can be changed at any time.</para>
 	/// </summary>
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public class UserSettings
 	{
 		public enum ByteSettingName : byte

@@ -1,10 +1,10 @@
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using Rynchodon.Update;
-using Rynchodon.Update.Components.Attributes;
-using Rynchodon.Utility;
 using Sandbox.Game.Entities;
 using Sandbox.ModAPI;
 using VRage.Game;
@@ -14,7 +14,7 @@ using VRage.ObjectBuilders;
 
 namespace Rynchodon.Weapons.SystemDisruption
 {
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public abstract class Disruption
 	{
 
@@ -114,7 +114,7 @@ FinishedBlocks:
 				Logger.DebugLog("Added new effect, strength: " + applied);
 				m_expire = Globals.ElapsedTime.Add(duration);
 
-				UpdateManager.Register(UpdateFrequency, UpdateEffect); // don't unregister on grid close, blocks can still be valid
+				ComponentSession.RegisterUpdateHandler(UpdateFrequency, UpdateEffect); // don't unregister on grid close, blocks can still be valid
 				AllDisruptions.Add(this);
 			}
 		}
@@ -144,7 +144,7 @@ FinishedBlocks:
 			{
 				Logger.DebugLog("Added old effect from builder");
 				m_expire = builder.Expires.ToTimeSpan();
-				UpdateManager.Register(UpdateFrequency, UpdateEffect);
+				ComponentSession.RegisterUpdateHandler(UpdateFrequency, UpdateEffect);
 				AllDisruptions.Add(this);
 			}
 		}
@@ -157,7 +157,7 @@ FinishedBlocks:
 			if (Globals.ElapsedTime > m_expire)
 			{
 				Logger.DebugLog("Removing the effect", Rynchodon.Logger.severity.DEBUG);
-				UpdateManager.Unregister(UpdateFrequency, UpdateEffect);
+				ComponentSession.UnregisterUpdateHandler(UpdateFrequency, UpdateEffect);
 				AllDisruptions.Remove(this);
 				RemoveEffect();
 			}

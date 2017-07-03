@@ -1,7 +1,7 @@
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using Rynchodon.Settings;
-using Rynchodon.Update.Components.Attributes;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.Game.Entities;
 using Sandbox.Game.Gui;
@@ -15,7 +15,7 @@ using VRageMath;
 namespace Rynchodon.Autopilot.Aerodynamics
 {
 	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_Cockpit), groupId: 1, order: 6)]
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	class CockpitTerminal
 	{
 

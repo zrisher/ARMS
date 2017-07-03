@@ -1,3 +1,5 @@
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -5,7 +7,6 @@ using System.Xml.Serialization;
 using Rynchodon.Attached;
 using Rynchodon.Autopilot;
 using Rynchodon.Instructions;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Utility.Network;
 using Sandbox.Common.ObjectBuilders;
@@ -22,7 +23,7 @@ using Ingame = Sandbox.ModAPI.Ingame;
 namespace Rynchodon.AntennaRelay
 {
 	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_TextPanel), groupId: 1, order: 4)]
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public class TextPanel : BlockInstructions
 	{
 

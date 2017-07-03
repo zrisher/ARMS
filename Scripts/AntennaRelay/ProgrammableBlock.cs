@@ -1,8 +1,9 @@
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using System.Text;
 using System.Xml.Serialization;
 using Rynchodon.Instructions;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility.Network;
 using Rynchodon.Utility;
 using Sandbox.Common.ObjectBuilders;
@@ -19,7 +20,7 @@ using Ingame = Sandbox.ModAPI.Ingame;
 namespace Rynchodon.AntennaRelay
 {
 	[IsEntityComponent(typeof(IMyCubeBlock), typeof(MyObjectBuilder_MyProgrammableBlock), RunLocation.Server, groupId: 1, order: 4)]
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public class ProgrammableBlock : BlockInstructions
 	{
 

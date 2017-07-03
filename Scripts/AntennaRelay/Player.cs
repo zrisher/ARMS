@@ -2,12 +2,12 @@
 //#define TRACE
 #endif
 
+using SEPC.Components;
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Rynchodon.Settings;
-using Rynchodon.Update;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility;
 using Rynchodon.Weapons;
 using Rynchodon.Weapons.Guided;
@@ -104,7 +104,7 @@ namespace Rynchodon.AntennaRelay
 			}
 
 			m_updateIntervalGPS = UserSettings.GetSetting(UserSettings.ByteSettingName.UpdateIntervalHUD);
-			UpdateManager.Register(m_updateIntervalGPS, UpdateGPS);
+			ComponentSession.RegisterUpdateHandler(m_updateIntervalGPS, UpdateGPS);
 			Log.DebugLog("initialized, identity id: " + myPlayer.IdentityId, Logger.severity.DEBUG);
 		}
 
@@ -169,8 +169,8 @@ namespace Rynchodon.AntennaRelay
 			{
 				Log.DebugLog("Update interval changed from " + m_updateIntervalGPS + " to " + newInterval, Logger.severity.DEBUG);
 
-				UpdateManager.Unregister(m_updateIntervalGPS, UpdateGPS);
-				UpdateManager.Register(newInterval, UpdateGPS);
+				ComponentSession.UnregisterUpdateHandler(m_updateIntervalGPS, UpdateGPS);
+				ComponentSession.RegisterUpdateHandler(newInterval, UpdateGPS);
 				m_updateIntervalGPS = newInterval;
 			}
 

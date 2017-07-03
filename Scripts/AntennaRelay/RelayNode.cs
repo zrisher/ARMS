@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using Rynchodon.Attached;
 using Rynchodon.Autopilot;
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components.Attributes;
 using Rynchodon.Utility;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.ModAPI;
@@ -24,8 +24,8 @@ namespace Rynchodon.AntennaRelay
 		typeof(MyObjectBuilder_LaserAntenna),
 		typeof(MyObjectBuilder_RadioAntenna),
 		typeof(MyObjectBuilder_RemoteControl)
-	}, RunLocation.Both, groupId: 1, order: 3)]
-	[IsEntityComponent(typeof(IMyCharacter), new Type[] { }, RunLocation.Both, groupId: 1, order: 3)]
+	}, groupId: 1, order: 3)]
+	[IsEntityComponent(typeof(IMyCharacter), new Type[] { }, groupId: 1, order: 3)]
 	public class RelayNode : IRelayPart
 	{
 

@@ -1,3 +1,4 @@
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using Rynchodon.Threading;
@@ -11,6 +12,7 @@ namespace Rynchodon
 	/// <summary>
 	/// Obtains a shared lock on core thread while performing an action.
 	/// </summary>
+	[IsSessionComponent(isStatic: true, groupId: (int)Loader.Groups.Init, order: (int)InitGroupOrder.MainLock)]
 	public static class MainLock
 	{
 
@@ -26,7 +28,8 @@ namespace Rynchodon
 		/// <summary>
 		/// This should only ever be called from main thread.
 		/// </summary>
-		public static void MainThread_AcquireExclusive()
+		[OnStaticSessionComponentInit]
+		private static void MainThread_AcquireExclusive()
 		{
 			Lock_MainThread.AcquireExclusive();
 		}
@@ -34,9 +37,18 @@ namespace Rynchodon
 		/// <summary>
 		/// This should only ever be called from main thread.
 		/// </summary>
-		public static void MainThread_ReleaseExclusive()
+		[OnSessionClose(order: -(int)InitGroupOrder.MainLock)]
+		private static void MainThread_ReleaseExclusive()
 		{
 			Lock_MainThread.ReleaseExclusive();
+		}
+
+		[OnSessionUpdate]
+		private static void Update()
+		{
+			MainThread_ReleaseExclusive();
+			// Do everything currently waiting on MainLock
+			MainThread_AcquireExclusive();
 		}
 
 #if PROFILE

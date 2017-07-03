@@ -1,9 +1,9 @@
+using SEPC.Components.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using Rynchodon.Autopilot;
 using Rynchodon.Update;
-using Rynchodon.Update.Components.Attributes;
 using Rynchodon.Utility.Network;
 using Sandbox.ModAPI;
 using VRage.Game.ModAPI;
@@ -11,7 +11,7 @@ using VRage.ModAPI;
 
 namespace Rynchodon.AntennaRelay
 {
-	[IsSessionComponent(RunLocation.Both, true)]
+	[IsSessionComponent(isStatic: true)]
 	public class Message
 	{
 

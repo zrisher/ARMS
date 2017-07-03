@@ -1,58 +1,40 @@
-using Rynchodon.Update.Components.Registration;
+using SEPC.Components;
 using System;
-using System.Reflection;
-using Sandbox.Common.ObjectBuilders;
-using Sandbox.Definitions;
-using Sandbox.Engine.Platform;
-using Sandbox.Game.World;
-using VRage.ObjectBuilders;
 using VRage.Plugins;
 
-namespace Rynchodon.Update
+namespace Rynchodon
 {
 	/// <summary>
 	/// Loaded with the game and persists until game is closed.
+	/// Registers our LogicComponents.
 	/// </summary>
 	public class Plugin : IPlugin
 	{
-		private bool _loaded;
-
 		public void Dispose() { }
 
 		public void Init(object gameInstance)
 		{
+			// TODO remove this try
 			try
 			{
-				LogicComponentRegistrar.DebugConditional();
-				LogicComponentRegistrar.ProfileConditional();
-				LogicComponentRegistrar.AddComponents();
-				LogicComponentRegistrar.LoadOnInit(0);
+				// Tell the Registrar if we have DEBUG defined
+				ComponentRegistrar.DebugConditional();
+
+				// Tell the Registrar if we have PROFILE defined
+				ComponentRegistrar.ProfileConditional();
+
+				// Tell the Registrar about all our components
+				ComponentRegistrar.AddComponents();
+
+				// Tell the Registrar which group to load automatically
+				ComponentRegistrar.LoadOnInit((int)Loader.Groups.Loader);
 			}
-			catch (Exception ex)
+			catch (Exception error)
 			{
-				Logger.DebugLog($"Error registering components: {ex}");
+				Logger.DebugLog($"Error registering components: {error}");
 			}
 		}
 
-		public void Update()
-		{
-			bool ready = MySession.Static != null && MySession.Static.Ready;
-
-			if (_loaded != ready)
-			{
-				if (!_loaded)
-					CheckForArmsAndRegister();
-				_loaded = ready;
-			}
-		}
-
-		private static void CheckForArmsAndRegister()
-		{
-			if (!Game.IsDedicated && MyDefinitionManager.Static.GetCubeBlockDefinition(new SerializableDefinitionId(typeof(MyObjectBuilder_Cockpit), "Autopilot-Block_Large")) == null)
-				return;
-
-			Logger.DebugLog("Registering UpdateManager as MySessionComponent.");
-			MySession.Static.RegisterComponentsFromAssembly(Assembly.GetExecutingAssembly(), true);
-		}
+		public void Update() { }
 	}
 }

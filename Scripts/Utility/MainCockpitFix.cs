@@ -1,4 +1,4 @@
-using Rynchodon.Update.Components.Attributes;
+using SEPC.Components.Attributes;
 using System;
 using System.Reflection;
 using Sandbox.Common.ObjectBuilders;
